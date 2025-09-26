@@ -486,7 +486,7 @@
       }
     }
 
-   function displayResults(resultText, pest, crop) {
+    function displayResults(resultText, pest, crop) {
   hideLoading();
 
   const resultsGrid = document.getElementById('resultsGrid');
@@ -564,6 +564,7 @@
   resultsSection.scrollIntoView({ behavior: 'smooth' });
   showSuccess('Impact analysis completed successfully!');
 }
+
     function showLoading() {
       document.getElementById('loadingDiv').style.display = 'block';
       document.getElementById('analyzeBtn').disabled = true;

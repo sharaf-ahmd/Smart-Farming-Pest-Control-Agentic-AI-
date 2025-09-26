@@ -76,7 +76,22 @@ def serve_register():
 
 
 
+@app.route('/treatment')
+def treatment():
+    return send_from_directory('../Client', 'Treatment.html')
+
+@app.route('/recommend', methods=['POST'])
+def reccomend():
+    data=request.json
+    pest=data.get("pest")
+    crop=data.get("crop")
+
+    if not pest or not crop:
+        return jsonify({"error": "Both 'pest' and 'crop' must be provided"}), 400
+    
+    result=util.reccomend(pest,crop)
+    return jsonify({"Treatment Recommendations": result})
 
 
-if __name__=='__main__':
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)
