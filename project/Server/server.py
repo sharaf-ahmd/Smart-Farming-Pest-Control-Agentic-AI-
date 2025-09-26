@@ -2,12 +2,18 @@ from flask import Flask,request,jsonify,send_from_directory
 from flask_cors import CORS
 import util
 import os
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+from dotenv import load_dotenv
+from flask_bcrypt import Bcrypt
 
-
+from auth import init_auth 
+load_dotenv()
 app=Flask(__name__)
 CORS(app)
-
-
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "super-secret-key")
+jwt = JWTManager(app)
+bcrypt = Bcrypt(app)
+init_auth(app)  
 util.load_saved_artifacts() 
 
 @app.route('/<path:filename>')
@@ -60,7 +66,13 @@ def Analyze():
     result=util.analyze(pest,crop)
     return jsonify({"Impact analysis": result})
     
+@app.route('/login')
+def serve_login():
+    return send_from_directory('static', 'login.html')
 
+@app.route('/register')
+def serve_register():
+    return send_from_directory('static', 'register.html')
 
 
 

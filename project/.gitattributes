@@ -1,0 +1,4 @@
+C:/Users/WWAsanka/Desktop/project/Model/PestDetection.pt filter=lfs diff=lfs merge=lfs -text
+C:/Users/WWAsanka/Desktop/project/Model/PestDetection/best.pt filter=lfs diff=lfs merge=lfs -text
+C:/Users/WWAsanka/Desktop/project/Server/best.pt filter=lfs diff=lfs merge=lfs -text
+C:/Users/WWAsanka/Desktop/project/Model/PestDetection/best.pt filter=lfs diff=lfs merge=lfs -text
