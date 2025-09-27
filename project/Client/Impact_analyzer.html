@@ -390,9 +390,10 @@
       <a href="index.html" class="logo">AgriGuard AI</a>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="pest-identifier.html">Pest Identifier</a></li>
-        <li><a href="#" class="active">Impact Analyzer</a></li>
-        <li><a href="treatment-recommender.html">Treatment Recommender</a></li>
+        <li><a href="pest_detector.html">Pest Identifier</a></li>
+        <li><a href="Impact_analyzer.html" class="active">Impact Analyzer</a></li>
+        <li><a href="Treatment.html">Treatment Recommender</a></li>
+        <li id="auth-link"><a href="login.html">Login</a></li>
       </ul>
     </div>
   </nav>
@@ -592,6 +593,21 @@
       document.getElementById('errorMessage').style.display = 'none';
       document.getElementById('successMessage').style.display = 'none';
     }
+    
+        // Login/Logout handling
+        const authLink = document.getElementById("auth-link");
+        const token = localStorage.getItem("token");
+        if (token) {
+            authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+            document.getElementById("logoutBtn").addEventListener("click", function(e) {
+                e.preventDefault();
+                localStorage.removeItem("token");
+                window.location.href = "login.html";
+            });
+        } else {
+            authLink.innerHTML = `<a href="login.html">Login</a>`;
+        }
+
   </script>
 </body>
 </html>

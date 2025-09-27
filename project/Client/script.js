@@ -61,3 +61,18 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadBtn.addEventListener('click', uploadImage);
     }
 });
+
+// Login/Logout handling
+const authLink = document.getElementById("auth-link");
+    const token = localStorage.getItem("token");
+    if (token) {
+        authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+        document.getElementById("logoutBtn").addEventListener("click", function(e) {
+            e.preventDefault();
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+    });
+} else {
+    authLink.innerHTML = `<a href="login.html">Login</a>`;
+}
+
