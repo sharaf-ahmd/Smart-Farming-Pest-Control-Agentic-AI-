@@ -1,290 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Treatment Recommender - AgriGuard AI</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treatment Recommender - AgriGuard AI</title>
 
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      background: #f8f9fa;
-      color: #333;
-    }
-
-    /* Navbar */
-    .navbar {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-    }
-    .nav-container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #2d5a27;
-      text-decoration: none;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: #333;
-      padding: 0.5rem 1rem;
-      border-radius: 25px;
-      transition: 0.3s;
-    }
-    .nav-links a:hover, .nav-links .active {
-      background: rgba(45, 90, 39, 0.1);
-      color: #2d5a27;
-    }
-
-    /* Hero */
-    .system-info {
-      background: linear-gradient(135deg, #2d5a27, #4CAF50);
-      color: white;
-      text-align: center;
-      padding: 120px 20px 40px;
-    }
-    .system-info h1 { font-size: 3rem; margin-bottom: 1rem; }
-
-    /* Main */
-    .container { max-width: 1000px; margin: auto; padding: 2rem; }
-    .input-section, .results-section {
-      background: white;
-      border-radius: 20px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
-    .section-title {
-      text-align: center;
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: #2d5a27;
-    }
-
-    .input-form { display: grid; gap: 1.5rem; }
-    .input-group label { font-weight: bold; margin-bottom: 0.5rem; color: #2d5a27; }
-    .input-field {
-      padding: 12px 16px;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      font-size: 1rem;
-    }
-    .input-field:focus {
-      border-color: #4CAF50;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(76,175,80,0.2);
-    }
-    .analyze-btn {
-      padding: 14px;
-      background: linear-gradient(135deg, #4CAF50, #45a049);
-      color: white;
-      border: none;
-      border-radius: 25px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .analyze-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(76,175,80,0.3);
-    }
-
-    /* Loading */
-    .loading { text-align: center; display: none; margin-top: 1rem; }
-    .spinner {
-      border: 4px solid #eee;
-      border-top: 4px solid #4CAF50;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
-    @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
-
-    /* Results */
-    .results-section { display: none; }
-    .treatment-card {
-      background: #f8f9fa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    .treatment-card h3 { color: #2d5a27; margin-bottom: 0.8rem; }
-    .analysis-text { color: #444; line-height: 1.7; }
-
-    /* Messages */
-    .error-message, .success-message {
-      display: none;
-      margin-top: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-      font-weight: bold;
-    }
-    .error-message { background: #ffebee; color: #c62828; }
-    .success-message { background: #e8f5e9; color: #2e7d32; }
-  </style>
-</head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#" class="logo">AgriGuard AI</a>
-      <ul class="nav-links">
-        <li><a href="index.html#home">Home</a></li>
-        <li><a href="pest_detector.html">Pest Identifier</a></li>
-        <li><a href="Impact_analyzer.html">Impact Analyzer</a></li>
-        <li><a href="Treatment.html" class="active">Treatment Recommender</a></li>
-        <li id="auth-link"><a href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <section class="system-info">
-    <h1>💊 Treatment Recommender</h1>
-    <p>AI-powered recommendation system for effective pest treatment and recovery methods.</p>
-  </section>
-
-  <!-- Main -->
-  <main class="container">
-    <!-- Input -->
-    <section class="input-section">
-      <h2 class="section-title">🔍 Find Treatment</h2>
-      <form id="treatmentForm" class="input-form">
-        <div class="input-group">
-          <label for="pestInput">🐛 Pest Species</label>
-          <input type="text" id="pestInput" class="input-field" placeholder="e.g., Brown Planthopper" required>
-        </div>
-        <div class="input-group">
-          <label for="cropInput">🌱 Crop Type</label>
-          <input type="text" id="cropInput" class="input-field" placeholder="e.g., Rice" required>
-        </div>
-        <button type="submit" class="analyze-btn">💊 Get Treatment</button>
-      </form>
-
-      <div class="loading" id="loadingDiv">
-        <div class="spinner"></div>
-        <p>Fetching treatment recommendations...</p>
-      </div>
-      <div class="error-message" id="errorMessage"></div>
-      <div class="success-message" id="successMessage"></div>
-    </section>
-
-    <!-- Results -->
-    <section class="results-section" id="resultsSection">
-      <h2 class="section-title">🧪 Recommended Treatment</h2>
-      <div id="treatmentResults"></div>
-    </section>
-  </main>
-
-  <script>
-    document.getElementById('treatmentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      fetchTreatment();
-    });
-
-    async function fetchTreatment() {
-      const pest = document.getElementById('pestInput').value.trim();
-      const crop = document.getElementById('cropInput').value.trim();
-
-      if (!pest || !crop) {
-        showError("Please enter both pest and crop.");
-        return;
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background: #f8f9fa;
+        color: #333;
       }
 
-      showLoading();
-      hideMessages();
+      /* Navbar */
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+      .nav-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2d5a27;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        transition: 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links .active {
+        background: rgba(45, 90, 39, 0.1);
+        color: #2d5a27;
+      }
 
-      try {
-        const res = await fetch('/recommend', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pest, crop })
+      /* Hero */
+      .system-info {
+        background: linear-gradient(135deg, #2d5a27, #4caf50);
+        color: white;
+        text-align: center;
+        padding: 120px 20px 40px;
+      }
+      .system-info h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Main */
+      .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 2rem;
+      }
+      .input-section,
+      .results-section {
+        background: white;
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+      .section-title {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        color: #2d5a27;
+      }
+
+      .input-form {
+        display: grid;
+        gap: 1.5rem;
+      }
+      .input-group label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #2d5a27;
+      }
+      .input-field {
+        padding: 12px 16px;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        font-size: 1rem;
+      }
+      .input-field:focus {
+        border-color: #4caf50;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+      }
+      .analyze-btn {
+        padding: 14px;
+        background: linear-gradient(135deg, #4caf50, #45a049);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .analyze-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+      }
+
+      /* Loading */
+      .loading {
+        text-align: center;
+        display: none;
+        margin-top: 1rem;
+      }
+      .spinner {
+        border: 4px solid #eee;
+        border-top: 4px solid #4caf50;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Results */
+      .results-section {
+        display: none;
+      }
+      .treatment-card {
+        background: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .treatment-card h3 {
+        color: #2d5a27;
+        margin-bottom: 0.8rem;
+      }
+      .analysis-text {
+        color: #444;
+        line-height: 1.7;
+      }
+
+      /* Messages */
+      .error-message,
+      .success-message {
+        display: none;
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+      }
+      .error-message {
+        background: #ffebee;
+        color: #c62828;
+      }
+      .success-message {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="#" class="logo">AgriGuard AI</a>
+        <ul class="nav-links">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="pest_detector.html">Pest Identifier</a></li>
+          <li><a href="Impact_analyzer.html">Impact Analyzer</a></li>
+          <li>
+            <a href="Treatment.html" class="active">Treatment Recommender</a>
+          </li>
+          <li id="auth-link"><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="system-info">
+      <h1>💊 Treatment Recommender</h1>
+      <p>
+        AI-powered recommendation system for effective pest treatment and
+        recovery methods.
+      </p>
+    </section>
+
+    <!-- Main -->
+    <main class="container">
+      <!-- Input -->
+      <section class="input-section">
+        <h2 class="section-title">🔍 Find Treatment</h2>
+        <form id="treatmentForm" class="input-form">
+          <div class="input-group">
+            <label for="pestInput">🐛 Pest Species</label>
+            <input
+              type="text"
+              id="pestInput"
+              class="input-field"
+              placeholder="e.g., Brown Planthopper"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="cropInput">🌱 Crop Type</label>
+            <input
+              type="text"
+              id="cropInput"
+              class="input-field"
+              placeholder="e.g., Rice"
+              required
+            />
+          </div>
+          <button type="submit" class="analyze-btn">💊 Get Treatment</button>
+        </form>
+
+        <div class="loading" id="loadingDiv">
+          <div class="spinner"></div>
+          <p>Fetching treatment recommendations...</p>
+        </div>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+      </section>
+
+      <!-- Results -->
+      <section class="results-section" id="resultsSection">
+        <h2 class="section-title">🧪 Recommended Treatment</h2>
+        <div id="treatmentResults"></div>
+      </section>
+    </main>
+
+    <script>
+      document
+        .getElementById("treatmentForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          fetchTreatment();
         });
 
-        if (!res.ok) throw new Error("Request failed");
+      async function fetchTreatment() {
+        const pest = document.getElementById("pestInput").value.trim();
+        const crop = document.getElementById("cropInput").value.trim();
 
-        const data = await res.json();
-        displayTreatment(data["Treatment Recommendations"], pest, crop);
-      } catch (err) {
-        hideLoading();
-        showError("Failed to fetch treatment. Try again.");
-        console.error(err);
+        if (!pest || !crop) {
+          showError("Please enter both pest and crop.");
+          return;
+        }
+
+        showLoading();
+        hideMessages();
+
+        try {
+          const res = await fetch("/recommend", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pest, crop }),
+          });
+
+          if (!res.ok) throw new Error("Request failed");
+
+          const data = await res.json();
+          displayTreatment(data["Treatment Recommendations"], pest, crop);
+        } catch (err) {
+          hideLoading();
+          showError("Failed to fetch treatment. Try again.");
+          console.error(err);
+        }
       }
-    }
 
-    function displayTreatment(treatmentText, pest, crop) {
-      hideLoading();
-      const resultsSection = document.getElementById('resultsSection');
-      const treatmentResults = document.getElementById('treatmentResults');
+      function displayTreatment(treatmentText, pest, crop) {
+        hideLoading();
+        const resultsSection = document.getElementById("resultsSection");
+        const treatmentResults = document.getElementById("treatmentResults");
 
-      treatmentResults.innerHTML = `
+        treatmentResults.innerHTML = `
         <div class="treatment-card">
           <h3>🐛 Pest: ${pest} | 🌱 Crop: ${crop}</h3>
-          <div class="analysis-text">${treatmentText.replace(/\n/g, "<br>")}</div>
+          <div class="analysis-text">${treatmentText.replace(
+            /\n/g,
+            "<br>"
+          )}</div>
         </div>
       `;
 
-      resultsSection.style.display = 'block';
-      resultsSection.scrollIntoView({ behavior: "smooth" });
-      showSuccess("Treatment recommendations loaded successfully!");
-    }
+        resultsSection.style.display = "block";
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+        showSuccess("Treatment recommendations loaded successfully!");
+      }
 
-    function showLoading() {
-      document.getElementById('loadingDiv').style.display = 'block';
-    }
-    function hideLoading() {
-      document.getElementById('loadingDiv').style.display = 'none';
-    }
-    function showError(msg) {
-      const e = document.getElementById('errorMessage');
-      e.innerText = msg;
-      e.style.display = 'block';
-    }
-    function showSuccess(msg) {
-      const s = document.getElementById('successMessage');
-      s.innerText = msg;
-      s.style.display = 'block';
-    }
-    function hideMessages() {
-      document.getElementById('errorMessage').style.display = 'none';
-      document.getElementById('successMessage').style.display = 'none';
-    }
-    // Login/Logout handling
-    const authLink = document.getElementById("auth-link");
-        const token = localStorage.getItem("token");
-        if (token) {
-            authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
-            document.getElementById("logoutBtn").addEventListener("click", function(e) {
-                e.preventDefault();
-                localStorage.removeItem("token");
-                window.location.href = "login.html";
-        });
-    } else {
+      function showLoading() {
+        document.getElementById("loadingDiv").style.display = "block";
+      }
+      function hideLoading() {
+        document.getElementById("loadingDiv").style.display = "none";
+      }
+      function showError(msg) {
+        const e = document.getElementById("errorMessage");
+        e.innerText = msg;
+        e.style.display = "block";
+      }
+      function showSuccess(msg) {
+        const s = document.getElementById("successMessage");
+        s.innerText = msg;
+        s.style.display = "block";
+      }
+      function hideMessages() {
+        document.getElementById("errorMessage").style.display = "none";
+        document.getElementById("successMessage").style.display = "none";
+      }
+      // Login/Logout handling
+      const authLink = document.getElementById("auth-link");
+      const token = localStorage.getItem("token");
+      if (token) {
+        authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+          });
+      } else {
         authLink.innerHTML = `<a href="login.html">Login</a>`;
-    }
-  </script>
-</body>
+      }
+    </script>
+  </body>
 </html>

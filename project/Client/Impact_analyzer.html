@@ -1,531 +1,544 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impact Analyzer Agent - AgriGuard AI</title>
-  
-   <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Impact Analyzer Agent - AgriGuard AI</title>
 
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-            min-height: 100vh;
-        }
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        /* Navigation */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f8f9fa;
+        min-height: 100vh;
+      }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #2d5a27;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .logo::before {
-            content: "🌾";
-            font-size: 2rem;
-        }
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2d5a27;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+      .logo::before {
+        content: "🌾";
+        font-size: 2rem;
+      }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-        }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
 
-        .nav-links a:hover {
-            color: #2d5a27;
-            background: rgba(45, 90, 39, 0.1);
-            transform: translateY(-2px);
-        }
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+      }
 
-        .nav-links .active {
-            color: #2d5a27;
-            background: rgba(45, 90, 39, 0.15);
-        }
+      .nav-links a:hover {
+        color: #2d5a27;
+        background: rgba(45, 90, 39, 0.1);
+        transform: translateY(-2px);
+      }
 
-        /* System Description */
-        .system-info {
-            background: linear-gradient(135deg, rgba(45, 90, 39, 0.9), rgba(76, 175, 80, 0.8));
-            color: white;
-            padding: 120px 2rem 40px;
-            text-align: center;
+      .nav-links .active {
+        color: #2d5a27;
+        background: rgba(45, 90, 39, 0.15);
+      }
+
+      .system-info {
+        background: linear-gradient(
+          135deg,
+          rgba(45, 90, 39, 0.9),
+          rgba(76, 175, 80, 0.8)
+        );
+        color: white;
+        padding: 120px 2rem 40px;
+        text-align: center;
+      }
+
+      .system-info h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .system-info p {
+        font-size: 1.2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        opacity: 0.9;
+      }
+
+      .main-content {
+        padding: 2rem 0;
+        min-height: calc(100vh - 200px);
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0 2rem;
+      }
+
+      .input-section {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+        border: 1px solid #e9ecef;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: #2d5a27;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .input-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .input-group label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #2d5a27;
+        font-size: 1.1rem;
+      }
+
+      .input-field {
+        padding: 15px 20px;
+        border: 2px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #fafafa;
+      }
+
+      .input-field:focus {
+        outline: none;
+        border-color: #4caf50;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+      }
+
+      .analyze-btn {
+        grid-column: 1 / -1;
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #4caf50, #45a049);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .analyze-btn:hover {
+        background: linear-gradient(135deg, #45a049, #3d8b40);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+      }
+
+      .analyze-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #4caf50;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .results-section {
+        background: white;
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        display: none;
+        border: 1px solid #f0f0f0;
+      }
+
+      .results-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .results-header h2 {
+        color: #2d5a27;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .metric-card {
+        background: linear-gradient(135deg, #f8f9ff, #e3f2fd);
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        border: 1px solid #e3f2fd;
+        transition: transform 0.3s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .metric-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .metric-label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .metric-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2d5a27;
+      }
+
+      .risk-low {
+        background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+        border-color: #4caf50;
+      }
+
+      .risk-medium {
+        background: linear-gradient(135deg, #fff3e0, #ffcc02);
+        border-color: #ff9800;
+      }
+
+      .risk-high {
+        background: linear-gradient(135deg, #ffebee, #ffcdd2);
+        border-color: #f44336;
+      }
+
+      .detailed-analysis {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 2rem;
+      }
+
+      .detailed-analysis h3 {
+        color: #2d5a27;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+      }
+
+      .analysis-text {
+        line-height: 1.8;
+        color: #555;
+      }
+
+      .pest-info,
+      .crop-info {
+        display: inline-block;
+        background: #e8f5e8;
+        color: #2d5a27;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-weight: bold;
+        margin: 0 0.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .input-form {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
         }
 
         .system-info h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
+          font-size: 2.2rem;
+          flex-direction: column;
+          gap: 0.5rem;
         }
 
-        .system-info p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0.9;
+        .nav-links {
+          display: none;
         }
 
-        /* Main Content */
-        .main-content {
-            padding: 2rem 0;
-            min-height: calc(100vh - 200px);
-        }
-
-        .container {
-            max-width: 100%;
-            margin: 0;
-            padding: 0 2rem;
-        }
-
-        /* Input Section */
-        .input-section {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            margin-bottom: 2rem;
-            border: 1px solid #e9ecef;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 2rem;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #2d5a27;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .input-form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-group label {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #2d5a27;
-            font-size: 1.1rem;
-        }
-
-        .input-field {
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #fafafa;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #4CAF50;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
-
-        .analyze-btn {
-            grid-column: 1 / -1;
-            padding: 15px 40px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .analyze-btn:hover {
-            background: linear-gradient(135deg, #45a049, #3d8b40);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
-        }
-
-        .analyze-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #4CAF50;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Results Section */
+        .input-section,
         .results-section {
-            background: white;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            display: none;
-            border: 1px solid #f0f0f0;
-        }
-
-        .results-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .results-header h2 {
-            color: #2d5a27;
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
+          padding: 2rem 1.5rem;
         }
 
         .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+          grid-template-columns: 1fr;
         }
-
-        .metric-card {
-            background: linear-gradient(135deg, #f8f9ff, #e3f2fd);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid #e3f2fd;
-            transition: transform 0.3s ease;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .metric-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .metric-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #2d5a27;
-        }
-
-        .risk-low { 
-            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
-            border-color: #4CAF50;
-        }
-        
-        .risk-medium { 
-            background: linear-gradient(135deg, #fff3e0, #ffcc02);
-            border-color: #ff9800;
-        }
-        
-        .risk-high { 
-            background: linear-gradient(135deg, #ffebee, #ffcdd2);
-            border-color: #f44336;
-        }
-
-        .detailed-analysis {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-
-        .detailed-analysis h3 {
-            color: #2d5a27;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .analysis-text {
-            line-height: 1.8;
-            color: #555;
-        }
-
-        .pest-info, .crop-info {
-            display: inline-block;
-            background: #e8f5e8;
-            color: #2d5a27;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 0 0.5rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .input-form {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .system-info h1 {
-                font-size: 2.2rem;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .input-section, .results-section {
-                padding: 2rem 1.5rem;
-            }
-
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Error States */
-        .error-message {
-            background: #ffebee;
-            color: #d32f2f;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            border: 1px solid #ffcdd2;
-            margin: 1rem 0;
-            display: none;
-        }
-
-        .success-message {
-            background: #e8f5e8;
-            color: #2e7d32;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            border: 1px solid #c8e6c9;
-            margin: 1rem 0;
-            display: none;
-        }
-    </style>
-  
-</head>
-<body>
-  <!-- Navigation -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="index.html" class="logo">AgriGuard AI</a>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="pest_detector.html">Pest Identifier</a></li>
-        <li><a href="Impact_analyzer.html" class="active">Impact Analyzer</a></li>
-        <li><a href="Treatment.html">Treatment Recommender</a></li>
-        <li id="auth-link"><a href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- System Description -->
-  <section class="system-info">
-    <h1>📊 Impact Analyzer Agent</h1>
-    <p>
-      Advanced AI-powered impact analysis system that predicts pest damage severity, yield loss, 
-      and risk assessment using ML models. Enter pest & crop to get real-time predictions.
-    </p>
-  </section>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <div class="container">
-      <!-- Input Section -->
-      <section class="input-section">
-        <h2 class="section-title">🔍 Analyze Pest Impact</h2>
-        <form class="input-form" id="analysisForm">
-          <div class="input-group">
-            <label for="pestInput">🐛 Pest Species</label>
-            <input type="text" id="pestInput" class="input-field" placeholder="e.g., Green Rice Leafhopper" required>
-          </div>
-          <div class="input-group">
-            <label for="cropInput">🌾 Crop Type</label>
-            <input type="text" id="cropInput" class="input-field" placeholder="e.g., Rice" required>
-          </div>
-          <button type="submit" class="analyze-btn" id="analyzeBtn">
-            <span>📈</span> Analyze Impact
-          </button>
-        </form>
-
-        <div class="error-message" id="errorMessage"></div>
-        <div class="success-message" id="successMessage"></div>
-
-        <!-- Loading Animation -->
-        <div class="loading" id="loadingDiv">
-          <div class="spinner"></div>
-          <p>Analyzing pest impact using AI models...</p>
-        </div>
-      </section>
-
-      <!-- Results Section -->
-      <section class="results-section" id="resultsSection">
-        <div class="results-header">
-          <h2>🎯 Impact Analysis Results</h2>
-          <p>Comprehensive pest damage assessment and yield prediction</p>
-        </div>
-        <div class="results-grid" id="resultsGrid"></div>
-        <div class="detailed-analysis" id="detailedAnalysis"></div>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    document.getElementById('analysisForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      analyzeImpact();
-    });
-
-    async function analyzeImpact() {
-      const pest = document.getElementById('pestInput').value.trim();
-      const crop = document.getElementById('cropInput').value.trim();
-
-      if (!pest || !crop) {
-        showError('Please enter both pest species and crop type.');
-        return;
       }
 
-      showLoading();
-      hideMessages();
+      .error-message {
+        background: #ffebee;
+        color: #d32f2f;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        border: 1px solid #ffcdd2;
+        margin: 1rem 0;
+        display: none;
+      }
 
-      try {
-        const response = await fetch('/analyzeImpact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ pest, crop })
+      .success-message {
+        background: #e8f5e8;
+        color: #2e7d32;
+        padding: 1rem 1.5rem;
+        border-radius: 10px;
+        border: 1px solid #c8e6c9;
+        margin: 1rem 0;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">AgriGuard AI</a>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="pest_detector.html">Pest Identifier</a></li>
+          <li>
+            <a href="Impact_analyzer.html" class="active">Impact Analyzer</a>
+          </li>
+          <li><a href="Treatment.html">Treatment Recommender</a></li>
+          <li id="auth-link"><a href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section class="system-info">
+      <h1>📊 Impact Analyzer Agent</h1>
+      <p>
+        Advanced AI-powered impact analysis system that predicts pest damage
+        severity, yield loss, and risk assessment using ML models. Enter pest &
+        crop to get real-time predictions.
+      </p>
+    </section>
+
+    <main class="main-content">
+      <div class="container">
+        <section class="input-section">
+          <h2 class="section-title">🔍 Analyze Pest Impact</h2>
+          <form class="input-form" id="analysisForm">
+            <div class="input-group">
+              <label for="pestInput">🐛 Pest Species</label>
+              <input
+                type="text"
+                id="pestInput"
+                class="input-field"
+                placeholder="e.g., Green Rice Leafhopper"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="cropInput">🌾 Crop Type</label>
+              <input
+                type="text"
+                id="cropInput"
+                class="input-field"
+                placeholder="e.g., Rice"
+                required
+              />
+            </div>
+            <button type="submit" class="analyze-btn" id="analyzeBtn">
+              <span>📈</span> Analyze Impact
+            </button>
+          </form>
+
+          <div class="error-message" id="errorMessage"></div>
+          <div class="success-message" id="successMessage"></div>
+
+          <div class="loading" id="loadingDiv">
+            <div class="spinner"></div>
+            <p>Analyzing pest impact using AI models...</p>
+          </div>
+        </section>
+
+        <section class="results-section" id="resultsSection">
+          <div class="results-header">
+            <h2>🎯 Impact Analysis Results</h2>
+            <p>Comprehensive pest damage assessment and yield prediction</p>
+          </div>
+          <div class="results-grid" id="resultsGrid"></div>
+          <div class="detailed-analysis" id="detailedAnalysis"></div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      document
+        .getElementById("analysisForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          analyzeImpact();
         });
 
-        if (!response.ok) {
-          throw new Error('Request failed');
+      async function analyzeImpact() {
+        const pest = document.getElementById("pestInput").value.trim();
+        const crop = document.getElementById("cropInput").value.trim();
+
+        if (!pest || !crop) {
+          showError("Please enter both pest species and crop type.");
+          return;
         }
 
-        const data = await response.json();
-        displayResults(data["Impact analysis"], pest, crop);
-      } catch (error) {
-        hideLoading();
-        showError('Failed to analyze impact. Please try again.');
-        console.error(error);
+        showLoading();
+        hideMessages();
+
+        try {
+          const response = await fetch("/analyzeImpact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ pest, crop }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Request failed");
+          }
+
+          const data = await response.json();
+          displayResults(data["Impact analysis"], pest, crop);
+        } catch (error) {
+          hideLoading();
+          showError("Failed to analyze impact. Please try again.");
+          console.error(error);
+        }
       }
-    }
 
-    function displayResults(resultText, pest, crop) {
-  hideLoading();
+      function displayResults(resultText, pest, crop) {
+        hideLoading();
 
-  const resultsGrid = document.getElementById('resultsGrid');
-  const detailedAnalysis = document.getElementById('detailedAnalysis');
-  const resultsSection = document.getElementById('resultsSection');
+        const resultsGrid = document.getElementById("resultsGrid");
+        const detailedAnalysis = document.getElementById("detailedAnalysis");
+        const resultsSection = document.getElementById("resultsSection");
 
-  // --- 1. Extract Key Metrics using updated regex ---
-  const riskMatch = resultText.match(/\*\*Risk Level:\*\*\s*(.+)/);
-  const avgDamageMatch = resultText.match(/\*\*Avg Damage:\*\*\s*(.+)/);
-  const yieldLossMatch = resultText.match(/\*\*Predicted Yield Loss:\*\*\s*(.+)/);
-  
-  const riskLevel = riskMatch ? riskMatch[1].trim() : 'N/A';
-  const avgDamage = avgDamageMatch ? avgDamageMatch[1].trim() : 'N/A';
-  const predictedYieldLoss = yieldLossMatch ? yieldLossMatch[1].trim() : 'N/A';
-  
-  // Use the original pest and crop if they are not in the AI's response
-  const pestName = pest;
-  const cropType = crop;
+        const riskMatch = resultText.match(/\*\*Risk Level:\*\*\s*(.+)/);
+        const avgDamageMatch = resultText.match(/\*\*Avg Damage:\*\*\s*(.+)/);
+        const yieldLossMatch = resultText.match(
+          /\*\*Predicted Yield Loss:\*\*\s*(.+)/
+        );
 
-  // --- 2. Extract Detailed Analysis Text ---
-  // The full text starts after the heading and metric list
-  const analysisStart = resultText.indexOf('**Explanation:**');
-  const fullText = analysisStart !== -1 ? resultText.substring(analysisStart) : resultText;
-  
-  // Format the text for HTML
-  const analysisHtml = fullText.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        const riskLevel = riskMatch ? riskMatch[1].trim() : "N/A";
+        const avgDamage = avgDamageMatch ? avgDamageMatch[1].trim() : "N/A";
+        const predictedYieldLoss = yieldLossMatch
+          ? yieldLossMatch[1].trim()
+          : "N/A";
 
-  // --- 3. Update UI Elements ---
-  // Helper function to apply color based on risk level
-  function getRiskClass(level) {
-      if (level.toLowerCase().includes('low')) return 'risk-low';
-      if (level.toLowerCase().includes('medium')) return 'risk-medium';
-      if (level.toLowerCase().includes('high')) return 'risk-high';
-      return '';
-  }
+        const pestName = pest;
+        const cropType = crop;
 
-  // Summary metrics (top cards)
-  resultsGrid.innerHTML = `
+        const analysisStart = resultText.indexOf("**Explanation:**");
+        const fullText =
+          analysisStart !== -1
+            ? resultText.substring(analysisStart)
+            : resultText;
+
+        const analysisHtml = fullText
+          .replace(/\n/g, "<br>")
+          .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+        function getRiskClass(level) {
+          if (level.toLowerCase().includes("low")) return "risk-low";
+          if (level.toLowerCase().includes("medium")) return "risk-medium";
+          if (level.toLowerCase().includes("high")) return "risk-high";
+          return "";
+        }
+
+        resultsGrid.innerHTML = `
     <div class="metric-card">
       <span class="metric-icon">🐛</span>
       <div class="metric-label">Pest</div>
@@ -553,61 +566,60 @@
     </div>
   `;
 
-  // Detailed explanation block
-  detailedAnalysis.innerHTML = `
+        detailedAnalysis.innerHTML = `
     <h3>📋 Detailed Analysis Report</h3>
     <div class="analysis-text">
       ${analysisHtml}
     </div>
   `;
-  
-  resultsSection.style.display = 'block';
-  resultsSection.scrollIntoView({ behavior: 'smooth' });
-  showSuccess('Impact analysis completed successfully!');
-}
 
-    function showLoading() {
-      document.getElementById('loadingDiv').style.display = 'block';
-      document.getElementById('analyzeBtn').disabled = true;
-      document.getElementById('resultsSection').style.display = 'none';
-    }
+        resultsSection.style.display = "block";
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+        showSuccess("Impact analysis completed successfully!");
+      }
 
-    function hideLoading() {
-      document.getElementById('loadingDiv').style.display = 'none';
-      document.getElementById('analyzeBtn').disabled = false;
-    }
+      function showLoading() {
+        document.getElementById("loadingDiv").style.display = "block";
+        document.getElementById("analyzeBtn").disabled = true;
+        document.getElementById("resultsSection").style.display = "none";
+      }
 
-    function showError(message) {
-      const errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = message;
-      errorDiv.style.display = 'block';
-    }
+      function hideLoading() {
+        document.getElementById("loadingDiv").style.display = "none";
+        document.getElementById("analyzeBtn").disabled = false;
+      }
 
-    function showSuccess(message) {
-      const successDiv = document.getElementById('successMessage');
-      successDiv.textContent = message;
-      successDiv.style.display = 'block';
-    }
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.style.display = "block";
+      }
 
-    function hideMessages() {
-      document.getElementById('errorMessage').style.display = 'none';
-      document.getElementById('successMessage').style.display = 'none';
-    }
-    
-        // Login/Logout handling
-        const authLink = document.getElementById("auth-link");
-        const token = localStorage.getItem("token");
-        if (token) {
-            authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
-            document.getElementById("logoutBtn").addEventListener("click", function(e) {
-                e.preventDefault();
-                localStorage.removeItem("token");
-                window.location.href = "login.html";
-            });
-        } else {
-            authLink.innerHTML = `<a href="login.html">Login</a>`;
-        }
+      function showSuccess(message) {
+        const successDiv = document.getElementById("successMessage");
+        successDiv.textContent = message;
+        successDiv.style.display = "block";
+      }
 
-  </script>
-</body>
+      function hideMessages() {
+        document.getElementById("errorMessage").style.display = "none";
+        document.getElementById("successMessage").style.display = "none";
+      }
+
+      const authLink = document.getElementById("auth-link");
+      const token = localStorage.getItem("token");
+      if (token) {
+        authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+        document
+          .getElementById("logoutBtn")
+          .addEventListener("click", function (e) {
+            e.preventDefault();
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+          });
+      } else {
+        authLink.innerHTML = `<a href="login.html">Login</a>`;
+      }
+    </script>
+  </body>
 </html>

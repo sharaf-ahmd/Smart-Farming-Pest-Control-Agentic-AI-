@@ -1,201 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgriGuard AI - Login</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #4CAF50, #2d5a27);
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriGuard AI - Login</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #4caf50, #2d5a27);
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
 
-    /* Navbar */
-    .navbar {
-      background: rgba(255, 255, 255, 0.95);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
 
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #2d5a27;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2d5a27;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-    .logo::before { content: "🌾"; font-size: 2rem; }
+      .logo::before {
+        content: "🌾";
+        font-size: 2rem;
+      }
 
-    .nav-links { display: flex; list-style: none; gap: 2rem; }
-    .nav-links a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      padding: 0.5rem 1rem;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-    }
-    .nav-links a:hover {
-      color: #2d5a27;
-      background: rgba(45, 90, 39, 0.1);
-      transform: translateY(-2px);
-    }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+      }
+      .nav-links a:hover {
+        color: #2d5a27;
+        background: rgba(45, 90, 39, 0.1);
+        transform: translateY(-2px);
+      }
 
-    /* Login Card */
-    .container {
-      width: 100%;
-      max-width: 420px;
-      padding: 2rem;
-      margin-top: 120px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      text-align: center;
-      color: white;
-      animation: fadeInUp 1s ease;
-    }
+      .container {
+        width: 100%;
+        max-width: 420px;
+        padding: 2rem;
+        margin-top: 120px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        text-align: center;
+        color: white;
+        animation: fadeInUp 1s ease;
+      }
 
-    .title { font-size: 2rem; margin-bottom: 1.5rem; font-weight: bold; letter-spacing: 1px; }
+      .title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+      }
 
-    .form .row { margin-bottom: 1rem; }
-    .form input {
-      width: 80%;
-      padding: 14px 16px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      outline: none;
-      background: rgba(255,255,255,0.9);
-      color: #333;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-    .form input:focus {
-      box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
-      transform: scale(1.02);
-    }
+      .form .row {
+        margin-bottom: 1rem;
+      }
+      .form input {
+        width: 80%;
+        padding: 14px 16px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        outline: none;
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+      .form input:focus {
+        box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        transform: scale(1.02);
+      }
 
-    .submit {
-      width: 80%;
-      padding: 14px;
-      background: linear-gradient(135deg, #4CAF50, #2d5a27);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 1rem;
-      transition: all 0.3s ease;
-    }
-    .submit:hover {
-      background: linear-gradient(135deg, #2d5a27, #4CAF50);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-    }
+      .submit {
+        width: 80%;
+        padding: 14px;
+        background: linear-gradient(135deg, #4caf50, #2d5a27);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+      }
+      .submit:hover {
+        background: linear-gradient(135deg, #2d5a27, #4caf50);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+      }
 
-    .result { margin-top: 1rem; }
-    .result h2 { font-size: 1rem; font-weight: normal; color: #fff; }
+      .result {
+        margin-top: 1rem;
+      }
+      .result h2 {
+        font-size: 1rem;
+        font-weight: normal;
+        color: #fff;
+      }
 
-    .register-link { margin-top: 1rem; font-size: 0.95rem; color: #fff; }
-    .register-link a {
-      color: #A5FFB3;
-      font-weight: bold;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-    .register-link a:hover { text-decoration: underline; color: #fff; }
+      .register-link {
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: #fff;
+      }
+      .register-link a {
+        color: #a5ffb3;
+        font-weight: bold;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      .register-link a:hover {
+        text-decoration: underline;
+        color: #fff;
+      }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-</head>
-<body>
-
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="logo">AgriGuard AI</div>
-      <ul class="nav-links">
-        <li><a href="index.html#home">Home</a></li>
-        <li><a href="index.html#agents">Agents</a></li>
-        <li><a href="index.html#technology">Technology</a></li>
-        <li><a href="index.html#workflow">How It Works</a></li>
-        <li><a href="register.html">Register</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Login Form -->
-  <div class="container">
-    <h1 class="title">Login to AgriGuard AI 🌱</h1>
-    <form class="form" id="loginForm">
-      <div class="row"><input type="text" id="username" placeholder="Username" required></div>
-      <div class="row"><input type="password" id="password" placeholder="Password" required></div>
-      <button type="submit" class="submit">Login</button>
-    </form>
-    <div class="register-link">
-      Don’t have an account? <a href="register.html">Register</a>
-    </div>
-    <div id="msg" class="result"><h2></h2></div>
-  </div>
-
-  <script>
-    $("#loginForm").submit(function(e) {
-      e.preventDefault();
-
-      const username = $("#username").val();
-      const password = $("#password").val();
-
-      $.ajax({
-        url: "http://127.0.0.1:5000/auth/login",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ username, password }),
-        success: function(data) {
-          if (data.access_token) {
-            localStorage.setItem("token", data.access_token);
-            $("#msg h2").text("Login successful!");
-
-            // Redirect to previously requested page or index.html
-            const redirectUrl = localStorage.getItem("redirectAfterLogin") || "index.html";
-            localStorage.removeItem("redirectAfterLogin");
-            setTimeout(() => { window.location.href = redirectUrl; }, 500);
-          } else {
-            $("#msg h2").text("Login failed!");
-          }
-        },
-        error: function(err) {
-          console.error(err);
-          $("#msg h2").text(err.responseJSON?.msg || "Login failed!");
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">AgriGuard AI</div>
+        <ul class="nav-links">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#agents">Agents</a></li>
+          <li><a href="index.html#technology">Technology</a></li>
+          <li><a href="index.html#workflow">How It Works</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h1 class="title">Login to AgriGuard AI 🌱</h1>
+      <form class="form" id="loginForm">
+        <div class="row">
+          <input type="text" id="username" placeholder="Username" required />
+        </div>
+        <div class="row">
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+        </div>
+        <button type="submit" class="submit">Login</button>
+      </form>
+      <div class="register-link">
+        Don’t have an account? <a href="register.html">Register</a>
+      </div>
+      <div id="msg" class="result"><h2></h2></div>
+    </div>
+
+    <script>
+      $("#loginForm").submit(function (e) {
+        e.preventDefault();
+
+        const username = $("#username").val();
+        const password = $("#password").val();
+
+        $.ajax({
+          url: "http://127.0.0.1:5000/auth/login",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ username, password }),
+          success: function (data) {
+            if (data.access_token) {
+              localStorage.setItem("token", data.access_token);
+              $("#msg h2").text("Login successful!");
+
+              const redirectUrl =
+                localStorage.getItem("redirectAfterLogin") || "index.html";
+              localStorage.removeItem("redirectAfterLogin");
+              setTimeout(() => {
+                window.location.href = redirectUrl;
+              }, 500);
+            } else {
+              $("#msg h2").text("Login failed!");
+            }
+          },
+          error: function (err) {
+            console.error(err);
+            $("#msg h2").text(err.responseJSON?.msg || "Login failed!");
+          },
+        });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
