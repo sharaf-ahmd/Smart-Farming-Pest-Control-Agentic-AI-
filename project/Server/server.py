@@ -5,11 +5,13 @@ import os
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
+import traceback
 
 from auth import init_auth 
 load_dotenv()
+
 app=Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "super-secret-key")
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
@@ -92,6 +94,45 @@ def reccomend():
     result=util.reccomend(pest,crop)
     return jsonify({"Treatment Recommendations": result})
 
+@app.route('/chatbot')
+def chatbot_page():
+    return send_from_directory('../Client', 'chat.html')
 
+
+
+# Chatbot
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.json
+    chat_input = data.get("chat_input")
+    session_id = data.get("session_id", "default")
+
+    if not chat_input:
+        return jsonify({"error": "chat_input is required"}), 400
+
+    bot = util.create_chatbot()
+
+    try:
+        response = bot.invoke(
+            {"input": chat_input},
+            config={"configurable": {"session_id": session_id}}
+        )
+
+        # Extract answer
+        if isinstance(response, dict) and "answer" in response:
+            response_text = response["answer"]
+        else:
+            response_text = str(response)
+
+        return jsonify({"response": response_text})
+
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": "Internal server error"}), 500
+
+
+# -------------------------------
+# Run Server
+# -------------------------------
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', port=5000)

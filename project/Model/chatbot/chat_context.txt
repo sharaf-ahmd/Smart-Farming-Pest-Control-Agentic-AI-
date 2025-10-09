@@ -1,0 +1,462 @@
+# Smart Farming Pest Control - Agentic AI System
+## RAG Chatbot Context Document
+
+---
+
+## 1. SYSTEM OVERVIEW
+
+**Service Name:** Smart Farming Pest Control - Agentic AI Platform
+
+**Mission:** To empower farmers with AI-driven pest detection, impact assessment, and treatment recommendations for sustainable crop protection and yield optimization.
+
+**Core Technology:** Multi-agent AI system combining Computer Vision (YOLO), Retrieval-Augmented Generation (RAG), and agricultural domain expertise.
+
+---
+
+## 2. SERVICE DESCRIPTION
+
+Smart Farming Pest Control is an intelligent web-based platform that helps farmers protect their crops through three specialized AI agents working in sequence:
+
+### Key Benefits:
+- **Instant Pest Identification:** Upload a photo and get immediate pest identification using state-of-the-art YOLO computer vision
+- **Risk Assessment:** Understand the potential damage and yield loss specific to your crop
+- **Actionable Treatment Plans:** Receive evidence-based, sustainable pest management recommendations
+- **Cost Savings:** Prevent crop losses through early detection and targeted interventions
+- **Sustainable Farming:** Promote Integrated Pest Management (IPM) practices that protect the environment
+- **24/7 Availability:** Access expert-level pest management advice anytime, anywhere
+- **Multi-Crop Support:** Comprehensive coverage for Rice, Corn, Wheat, Beet, Alfalfa, Grapes (Vitis), Citrus, and Mango
+
+---
+
+## 3. THE THREE AI AGENTS - DETAILED EXPLANATION
+
+### **AGENT 1: PEST DETECTION AGENT**
+
+**Purpose:** Accurate identification of pests from uploaded images
+
+**Technology:** YOLO (You Only Look Once) deep learning model trained on IP102 dataset
+
+**How It Works:**
+1. Farmer uploads a clear photo of the pest or pest-damaged crop
+2. YOLO model processes the image in real-time (< 2 seconds)
+3. AI identifies the pest species from 102 possible pest categories
+4. Returns pest name with confidence score
+
+**Supported Pests:** 102 agricultural pest species including:
+- Rice pests: Brown Planthopper, Rice Stem Borer, Rice Leaf Roller, Rice Gall Midge, etc.
+- Corn pests: Corn Earworm, European Corn Borer, Corn Rootworm, Corn Armyworm, etc.
+- Wheat pests: Wheat Aphid, Wheat Stem Sawfly, Wheat Armyworm, etc.
+- Other crop pests: Beet Armyworm, Alfalfa Weevil, Grape Leafhopper, Citrus Leafminer, Mango Hopper, etc.
+
+**Image Requirements:**
+- Clear, well-lit photos
+- Close-up shots of the pest or damage
+- Multiple angles recommended for better accuracy
+- Supported formats: JPG, PNG, JPEG
+- Recommended resolution: 640x640 pixels or higher
+
+**Output Example:**
+```
+Detected Pest: Brown Planthopper
+Confidence: 94.5%
+Crop Association: Rice
+```
+
+---
+
+### **AGENT 2: IMPACT ANALYSIS AGENT**
+
+**Purpose:** Assess the potential damage and economic impact of identified pests on crops
+
+**Technology:** RAG (Retrieval-Augmented Generation) model with IP102 impact database
+
+**How It Works:**
+1. Receives pest name from Agent 1 and crop type from farmer
+2. Queries comprehensive impact database (102 pest profiles)
+3. Retrieves specific risk metrics for the pest-crop combination
+4. Generates detailed impact assessment report
+
+**Impact Metrics Provided:**
+- **Risk Level:** High, Medium, or Low classification
+- **Average Damage Percentage:** Expected crop damage (0-25%)
+- **Predicted Yield Loss:** Estimated production loss (0-20%)
+- **Vulnerable Crop Stages:** Most susceptible growth phases
+- **Economic Impact:** Financial implications for farmers
+
+**Database Coverage:**
+- 102 pest species profiles
+- 8 major crop categories
+- Risk assessments based on agricultural research
+- Regional adaptation considerations
+
+**Example Output:**
+```
+Pest: Brown Planthopper
+Crop: Rice
+Risk Level: HIGH ⚠️
+Average Damage: 25%
+Predicted Yield Loss: 20%
+Critical Period: Tillering to grain filling stage
+Economic Impact: Severe - can cause complete crop failure if untreated
+```
+
+**Additional Context Provided:**
+- Feeding behavior and damage symptoms
+- Population dynamics and outbreak conditions
+- Historical impact data and case studies
+- Regional prevalence information
+
+---
+
+### **AGENT 3: TREATMENT RECOMMENDATION AGENT**
+
+**Purpose:** Provide evidence-based, sustainable pest management solutions
+
+**Technology:** RAG model trained on agricultural databases including:
+- National Integrated Pest Management (IPM) Database
+- Agricultural Recommendation Systems for Crop Protection
+- Sustainable Pest and Weed Control Databases
+- University Extension Service Guidelines
+- FAO Crop Protection Manuals
+
+**How It Works:**
+1. Receives pest identification and impact assessment from previous agents
+2. Retrieves IPM-based treatment protocols from knowledge base
+3. Generates comprehensive, multi-layered treatment plan
+4. Prioritizes sustainable and cost-effective solutions
+
+**Treatment Approach - Integrated Pest Management (IPM):**
+
+The system recommends a holistic IPM approach with four control methods:
+
+#### **1. Cultural Control (Preventive)**
+- Field preparation and crop rotation strategies
+- Planting date adjustments
+- Water and nutrient management
+- Sanitation and debris removal
+- Resistant variety selection
+- Crop spacing and density optimization
+
+#### **2. Biological Control (Eco-Friendly)**
+- Natural predator conservation
+- Beneficial insect release (parasitoids, predators)
+- Biopesticides (Bacillus thuringiensis, entomopathogenic fungi/nematodes)
+- Habitat management for beneficial organisms
+- Reduced broad-spectrum pesticide use
+
+#### **3. Physical/Mechanical Control (Non-Chemical)**
+- Pheromone traps for monitoring and mass trapping
+- Light traps for nocturnal pests
+- Yellow/blue sticky traps
+- Hand collection and removal
+- Barriers and row covers
+- Fruit bagging for protection
+
+#### **4. Chemical Control (Last Resort)**
+- Selective insecticides with minimal environmental impact
+- Economic threshold-based application
+- Specific active ingredients recommended
+- Application timing for maximum efficacy
+- Resistance management strategies
+- Safety precautions and PHI (Pre-Harvest Interval) guidelines
+
+**Treatment Recommendation Format:**
+```
+Treatment Plan for: Brown Planthopper on Rice
+
+PRIORITY 1 - IMMEDIATE ACTIONS:
+✓ Scout fields using light traps to assess population density
+✓ Check for resistant rice varieties (BPH-resistant cultivars) for next season
+✓ Reduce excessive nitrogen fertilization immediately
+
+PRIORITY 2 - BIOLOGICAL CONTROL:
+✓ Conserve natural enemies: spiders, mirid bugs, damselflies
+✓ Avoid broad-spectrum insecticides that kill beneficial insects
+✓ Maintain field bunds with flowering plants for predator habitat
+
+PRIORITY 3 - CULTURAL PRACTICES:
+✓ Synchronize planting within 2-3 week window across region
+✓ Maintain proper water levels (avoid continuous flooding)
+✓ Remove ratoon crops and alternate host plants
+
+PRIORITY 4 - CHEMICAL CONTROL (If Threshold Exceeded):
+✓ Apply selective insecticides: imidacloprid (0.3ml/L) or thiamethoxam (0.2g/L)
+✓ Apply only when 10+ hoppers per tiller
+✓ Spray in evening when hoppers are most active
+✓ Rotate insecticide classes to prevent resistance
+
+MONITORING SCHEDULE:
+Week 1-2: Daily visual inspection
+Week 3-4: Light trap monitoring (3x per week)
+Week 5+: Weekly inspection until harvest
+
+ESTIMATED TREATMENT COST: $45-80 per acre
+EXPECTED YIELD PROTECTION: 15-20% yield saved
+```
+
+**Additional Recommendations Include:**
+- Step-by-step application instructions
+- Safety equipment requirements
+- Environmental precautions
+- Re-entry intervals and harvest restrictions
+- Follow-up monitoring schedules
+- Preventive measures for future seasons
+
+---
+
+## 4. HOW TO USE THE PLATFORM - COMPLETE WORKFLOW
+
+### **Step-by-Step User Journey:**
+
+#### **STEP 1: Access the Platform**
+- Navigate to Smart Farming Pest Control website
+- No registration required for basic use (optional for saving history)
+- Mobile-friendly interface accessible from smartphones
+
+#### **STEP 2: Upload Pest Image**
+- Click "Upload Image" or "Take Photo" button
+- Select clear, well-lit image of pest or damage
+- Ensure pest is visible and in focus
+- System accepts JPG, PNG, JPEG formats
+
+#### **STEP 3: Agent 1 - Automatic Pest Detection**
+- YOLO model processes image (1-3 seconds)
+- View detected pest name and confidence score
+- See pest thumbnail and basic information
+- Option to re-upload if detection confidence is low
+
+#### **STEP 4: Select Your Crop Type**
+- Choose from dropdown menu: Rice, Corn, Wheat, Beet, Alfalfa, Vitis, Citrus, Mango
+- System automatically matches pest with crop
+- View pest-crop compatibility confirmation
+
+#### **STEP 5: Agent 2 - Impact Analysis**
+- Click "Analyze Impact" button
+- Receive comprehensive damage assessment
+- View risk level, damage percentage, yield loss prediction
+- Understand economic implications
+
+#### **STEP 6: Agent 3 - Get Treatment Recommendations**
+- Click "Get Treatment Plan" button
+- Review comprehensive IPM-based treatment strategy
+- Download/save treatment plan as PDF
+- Access additional resources and educational materials
+
+#### **STEP 7: Take Action**
+- Follow recommended treatment protocols
+- Implement preventive measures
+- Monitor pest populations as advised
+- Return to platform for follow-up consultations
+
+---
+
+## 5. FREQUENTLY ASKED QUESTIONS (FAQ)
+
+### **General Questions:**
+
+**Q: Is this service free?**
+A: Yes, basic pest detection and recommendations are completely free for all farmers.
+
+**Q: Do I need to create an account?**
+A: No, the platform can be used without registration. However, creating an account allows you to save detection history and treatment plans.
+
+**Q: What languages are supported?**
+A: Currently English, with plans to add regional languages based on user demand.
+
+**Q: Can I use this offline?**
+A: The platform requires internet connection. We're developing an offline mobile app for remote areas.
+
+### **Technical Questions:**
+
+**Q: How accurate is the pest detection?**
+A: Our YOLO model achieves 92-96% accuracy on the IP102 dataset. Accuracy depends on image quality.
+
+**Q: What if the AI can't identify my pest?**
+A: If confidence is below 70%, the system will ask for additional photos or suggest manual consultation options.
+
+**Q: Can I detect multiple pests in one image?**
+A: Yes, YOLO can detect multiple pests. The system will provide impact analysis for each detected pest.
+
+**Q: What crops are supported?**
+A: Rice, Corn, Wheat, Beet, Alfalfa, Grapes (Vitis), Citrus, and Mango. More crops being added based on farmer requests.
+
+### **Treatment Questions:**
+
+**Q: Are the treatments safe for organic farming?**
+A: Yes, we prioritize organic and biological control methods. Chemical controls are listed as last resort with organic alternatives provided.
+
+**Q: Where can I buy the recommended pesticides?**
+A: We provide active ingredient names. Purchase from licensed agricultural input dealers. We can connect you with verified suppliers.
+
+**Q: How soon should I apply treatments?**
+A: Treatment urgency is indicated in the recommendation. High-risk pests require immediate action (within 24-48 hours).
+
+**Q: What if recommended products aren't available in my area?**
+A: Contact our support team for regional alternatives or ask the chatbot for substitute recommendations.
+
+### **Results Questions:**
+
+**Q: How long until I see results?**
+A: Depends on treatment method:
+- Chemical: 24-72 hours
+- Biological: 1-2 weeks
+- Cultural: Preventive, effects seen in following season
+
+**Q: What if treatment doesn't work?**
+A: Re-assess pest population, check application method, or consult with our agricultural experts for alternative strategies.
+
+**Q: Can I prevent future infestations?**
+A: Yes! Follow the "Preventive Measures" section in your treatment plan. IPM focuses heavily on prevention.
+
+---
+
+## 6. PEST DATABASE INFORMATION
+
+### **IP102 Dataset Details:**
+- **Total Pests:** 102 species
+- **Image Training Data:** 75,000+ labeled pest images
+- **Categories:** 8 crop super-classes
+- **Geographic Coverage:** Global agricultural pests with regional adaptation
+
+### **Crop-Pest Coverage:**
+
+**RICE (22 pests):**
+Brown Planthopper, Rice Leaf Roller, Whitebacked Planthopper, Green Rice Leafhopper, Rice Gall Midge, Rice Stem Borer, Rice Brown Leafhopper, Rice Black Bug, Rice White Grub, Rice Green Stink Bug, Rice Brown Stink Bug, Rice Leaf Folder, Rice Caseworm, Rice Thrips, Rice Stemborer, Rice Water Weevil, Rice Skipper, Rice Hispa, Rice Gundhi Bug, Rice Army Worm, Rice Blue Beetle, Rice Yellow Stem Borer
+
+**CORN (18 pests):**
+Corn Earworm, European Corn Borer, Corn Rootworm, Corn Leaf Aphid, Corn Stalk Borer, Corn Seedling Maggot, Corn Armyworm, Corn Leaf Miner, Corn Wireworm, Corn Thrips, Corn Root Aphid, Corn Stalk Gall Midge, Corn Flea Beetle, Corn Silk Fly, Corn Billbug, Corn Cutworm
+
+**WHEAT (14 pests):**
+Wheat Aphid, Wheat Stem Sawfly, Wheat Hessian Fly, Wheat Leaf Rust, Wheat Armyworm, Wheat Grain Aphid, Wheat Powdery Mildew, Wheat Rust Mite, Wheat Yellow Rust, Wheat Stem Rust, Wheat Grain Midge, Wheat Chinch Bug, Wheat Mite, Wheat Wireworm
+
+**BEET (8 pests):**
+Beet Armyworm, Beet Leafhopper, Beet Root Maggot, Beet Leaf Miner, Beet Root Aphid, Beet Flea Beetle, Beet Webworm, Beet Curly Top Virus Vector
+
+**ALFALFA (10 pests):**
+Alfalfa Weevil, Alfalfa Caterpillar, Alfalfa Aphid, Alfalfa Thrips, Alfalfa Leafhopper, Alfalfa Plant Bug, Alfalfa Seed Chalcid, Alfalfa Looper
+
+**VITIS/GRAPES (8 pests):**
+Grape Leafhopper, Grape Mealybug, Grape Berry Moth, Grape Vine Mealybug, Grape Leaf Miner, Grape Phylloxera, Grape Scale, Grape Root Borer
+
+**CITRUS (8 pests):**
+Citrus Leafminer, Citrus Psylla, Citrus Red Mite, Citrus Blackfly, Citrus Whitefly, Citrus Thrips, Citrus Rust Mite
+
+**MANGO (9 pests):**
+Mango Hopper, Mango Mealybug, Mango Fruit Borer, Mango Twig Borer, Mango Leaf Webber, Mango Scale, Mango Weevil, Mango Shoot Borer
+
+---
+
+## 7. TECHNICAL SPECIFICATIONS
+
+### **System Architecture:**
+- **Frontend:** Responsive web interface (HTML/CSS/JavaScript/React)
+- **Backend:** Python-based API server
+- **Agent 1:** YOLO v8 object detection model (best.pt weights)
+- **Agent 2 & 3:** RAG system with vector database for knowledge retrieval
+- **Database:** PostgreSQL for user data, Vector DB for pest knowledge
+- **Hosting:** Cloud-based for 24/7 availability
+
+### **Model Performance:**
+- **Detection Speed:** 1-3 seconds per image
+- **Accuracy:** 92-96% on IP102 test set
+- **Supported Image Size:** 640x640 to 1280x1280 pixels
+- **Response Time:** End-to-end workflow < 10 seconds
+
+---
+
+## 8. INTEGRATED PEST MANAGEMENT (IPM) PRINCIPLES
+
+Our platform is built on IPM best practices:
+
+1. **Prevention:** First line of defense through cultural practices
+2. **Monitoring:** Regular scouting and early detection
+3. **Identification:** Accurate pest identification (our Agent 1)
+4. **Action Thresholds:** Treat only when economically justified
+5. **Control Methods:** Prioritize least toxic, most sustainable options
+6. **Evaluation:** Monitor treatment effectiveness
+
+### **IPM Benefits:**
+- Reduces pesticide use by 40-60%
+- Protects beneficial insects and pollinators
+- Prevents pesticide resistance
+- Improves soil and water quality
+- Increases long-term farm profitability
+- Complies with organic and sustainable certification standards
+
+---
+
+## 9. SUPPORT AND RESOURCES
+
+### **Getting Help:**
+- **AI Chatbot:** Ask questions anytime (powered by this RAG system)
+- **Email Support:** support@smartfarmingpestcontrol.com
+- **Phone Helpline:** [Regional numbers provided]
+- **Video Tutorials:** Step-by-step guides on YouTube channel
+- **Community Forum:** Connect with other farmers
+
+### **Educational Resources:**
+- Pest identification guides with images
+- IPM best practices library
+- Seasonal pest calendars
+- Webinar recordings with agricultural experts
+- Downloadable fact sheets for each pest
+
+### **Partner Organizations:**
+- Local agricultural extension services
+- University research programs
+- Sustainable agriculture NGOs
+- Input supplier networks
+- Farmer cooperatives
+
+---
+
+## 10. FUTURE ENHANCEMENTS
+
+We're continuously improving the platform:
+
+- **Expanded Pest Database:** Adding 50+ more pest species
+- **Disease Detection:** Fungal, bacterial, and viral disease identification
+- **Nutrient Deficiency Analysis:** From leaf images
+- **Weather Integration:** Pest outbreak predictions based on weather
+- **Mobile App:** iOS and Android with offline capabilities
+- **Regional Language Support:** Local language interfaces
+- **Community Sharing:** Farmers can share pest sightings and treatments
+- **Predictive Analytics:** Forecast pest pressure for upcoming season
+- **Drone Integration:** Aerial pest and disease monitoring
+
+---
+
+## 11. CHATBOT RESPONSE GUIDELINES
+
+When responding to users:
+
+1. **Be Farmer-Centric:** Use simple, clear language avoiding technical jargon
+2. **Be Encouraging:** Farmers are learning new technology, be patient and supportive
+3. **Be Specific:** Provide actionable, practical advice
+4. **Be Honest:** If you don't know, say so and offer to connect them with experts
+5. **Promote Sustainability:** Always emphasize IPM and environmental stewardship
+6. **Consider Context:** Adapt recommendations to crop type, season, and region
+7. **Provide Examples:** Use real scenarios when explaining concepts
+8. **Safety First:** Always mention safety precautions for chemical treatments
+
+---
+
+## 12. SAMPLE CONVERSATIONS
+
+**Example 1: New User**
+User: "How does this work?"
+Bot: "Welcome to Smart Farming Pest Control! Our system helps you protect your crops in 3 easy steps: 1) Upload a photo of the pest, 2) Our AI identifies it and shows the potential damage, 3) You get a customized treatment plan. It's free and takes less than a minute. Would you like to upload your first pest image now?"
+
+**Example 2: Technical Question**
+User: "What is YOLO?"
+Bot: "YOLO stands for 'You Only Look Once' - it's a powerful computer vision technology that can identify pests from photos instantly. Think of it as having an expert entomologist look at your photo, but in just 2 seconds! You don't need to worry about the technical details - just upload a clear photo and our system does the rest."
+
+**Example 3: Treatment Question**
+User: "Is imidacloprid safe?"
+Bot: "Imidacloprid is a systemic insecticide that's effective against many pests. However, we recommend using it only as a last resort after trying biological and cultural controls. If you must use it: 1) Apply only when pest threshold is exceeded, 2) Follow label dosage exactly, 3) Wear protective equipment, 4) Don't spray near water sources or flowering crops, 5) Observe the pre-harvest interval (PHI) listed on the label. Would you like information about safer biological alternatives?"
+
+---
+
+## END OF CONTEXT DOCUMENT
+
+This document provides the complete knowledge base for the RAG chatbot to assist farmers using the Smart Farming Pest Control platform.

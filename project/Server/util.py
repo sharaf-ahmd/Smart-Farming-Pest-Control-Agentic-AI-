@@ -3,13 +3,17 @@ import numpy as np
 import warnings
 from ultralytics import YOLO
 from collections import Counter
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS,Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.chains import create_retrieval_chain
-
+from langchain.chains import create_retrieval_chain,create_history_aware_retriever
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain.docstore.document import Document
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 from dotenv import load_dotenv
 
 
@@ -26,12 +30,12 @@ doc_chain2=None
 llm=None
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-
+_sessions = {}
 
 def load_saved_artifacts():
-    global __model
+    global __model, chain, llm
     __model = YOLO("best.pt")
-    print('loading complete....')  
+    print('YOLO model loaded...')  
 
     global llm
     llm = ChatGroq(api_key=groq_api_key,model="llama-3.1-8b-instant")
@@ -118,3 +122,55 @@ def reccomend(pest:str, crop:str):
         raise Exception("Chain not loaded. Call load_saved_artifacts() first.")
     result = chain2.invoke({"input": pest, "croptype": crop})
     return result['answer']
+
+def create_chatbot():
+    # Load chat context
+    chat_file = "../Model/chatbot/chat_context.txt"
+    with open(chat_file, "r", encoding="utf-8", errors="ignore") as f:
+        chat_text = f.read()
+
+    chat_docs = [Document(page_content=chat_text)]
+    splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=200)
+    chat_splits = splitter.split_documents(chat_docs)
+
+    vector_db_local = Chroma.from_documents(documents=chat_splits, embedding=embeddings)
+    retriever = vector_db_local.as_retriever()
+
+    # Reformulation prompt
+    q_prompt = (
+        "Given a chat history and the latest user question, "
+        "reformulate it into a standalone question. "
+        "Do not answer, only reformulate."
+    )
+    ref_prompt = ChatPromptTemplate.from_messages([
+        ("system", q_prompt),
+        MessagesPlaceholder(variable_name="chat_history"),
+        ("human", "{input}"),
+    ])
+    history_ret = create_history_aware_retriever(llm, retriever, ref_prompt)
+
+    # Response prompt
+    system_prompt = (
+        "You are an assistant for question-answering tasks. "
+        "Answer concisely using the context provided.\n\n{context}"
+    )
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("human", "{input}"),
+    ])
+    doc_chain_local = create_stuff_documents_chain(llm, prompt)
+    ret_chain = create_retrieval_chain(history_ret, doc_chain_local)
+
+    # Session history function
+    def get_session_history(session_id: str) -> BaseChatMessageHistory:
+        if session_id not in _sessions:
+            _sessions[session_id] = ChatMessageHistory()
+        return _sessions[session_id]
+
+    return RunnableWithMessageHistory(
+        ret_chain,
+        get_session_history,
+        input_messages_key="input",
+        history_messages_key="chat_history",
+        output_messages_key="answer",
+    )
