@@ -4,7 +4,7 @@ import warnings
 from ultralytics import YOLO
 from collections import Counter
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -24,7 +24,8 @@ vector_db2 =None
 doc_chain=None
 doc_chain2=None
 llm=None
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
 
 
 def load_saved_artifacts():
@@ -33,13 +34,18 @@ def load_saved_artifacts():
     print('loading complete....')  
 
     global llm
-    llm = ChatGroq(api_key=groq_api_key,model="Gemma2-9b-It")
+    llm = ChatGroq(api_key=groq_api_key,model="llama-3.1-8b-instant")
 
     
     '''--------------Impact analyzer--------------'''
     
     global vector_db
-    db = FAISS.load_local('../Model/ImpactAnalyzer/faiss_index', embeddings,allow_dangerous_deserialization=True)
+    db = FAISS.load_local(
+    '../Model/ImpactAnalyzer/faiss_index',
+    embeddings,
+    allow_dangerous_deserialization=True
+)
+
     vector_db=db.as_retriever()   
 
     prompt= ChatPromptTemplate.from_messages([
