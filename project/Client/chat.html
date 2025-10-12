@@ -13,26 +13,96 @@
 
       body {
         font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #4caf50, #1b5e20);
+        background: #f8fafc;
         height: 100vh;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+
+      .navbar {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        width: 100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        padding: 20px;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2d5a27;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+      .logo::before {
+        content: "🌾";
+        font-size: 2rem;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        position: relative;
+      }
+      .nav-links a:hover {
+        color: #2d5a27;
+        background: rgba(45, 90, 39, 0.1);
+        transform: translateY(-2px);
+      }
+
+      .mobile-menu {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      .chat-wrapper {
+        position: fixed;
+        top: 76px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        overflow: hidden;
       }
 
       .chat-container {
         width: 100%;
-        max-width: 1000px;
-        height: 90vh;
+        height: 100%;
         background: #ffffff;
-        border-radius: 25px;
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
         position: relative;
-        animation: fadeIn 0.8s ease;
       }
 
       @keyframes fadeIn {
@@ -46,97 +116,6 @@
         }
       }
 
-      .chat-header {
-        background: linear-gradient(135deg, #2e7d32, #1b5e20);
-        color: white;
-        padding: 22px 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .bot-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 26px;
-        color: #1b5e20;
-        box-shadow: 0 3px 8px rgba(255, 255, 255, 0.3);
-        margin-right: 15px;
-      }
-
-      .header-left {
-        display: flex;
-        align-items: center;
-      }
-
-      .header-content h1 {
-        font-size: 1.4rem;
-        font-weight: 600;
-        margin-bottom: 4px;
-      }
-
-      .header-content p {
-        font-size: 0.85rem;
-        opacity: 0.9;
-      }
-
-      .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
-
-      .status-indicator {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.15);
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-      }
-
-      .status-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #8bc34a;
-        animation: pulse 2s infinite;
-      }
-
-      @keyframes pulse {
-        0%,
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.2);
-          opacity: 0.6;
-        }
-      }
-
-      .reset-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 25px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.85rem;
-      }
-
-      .reset-btn:hover {
-        background: rgba(255, 255, 255, 0.3);
-        transform: translateY(-2px);
-      }
-
       .quick-actions {
         background: #f9f9f9;
         border-bottom: 1px solid #e0e0e0;
@@ -144,6 +123,8 @@
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
+        flex-shrink: 0;
+        justify-content: center;
       }
 
       .quick-action-btn {
@@ -165,10 +146,12 @@
       }
 
       .chat-messages {
-        flex: 1;
+        flex: 1 1 auto;
         overflow-y: auto;
         padding: 25px;
+        padding-bottom: 100px;
         background: #f1f8e9;
+        min-height: 0;
       }
 
       .message {
@@ -220,6 +203,7 @@
         line-height: 1.6;
         font-size: 0.95rem;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        margin-bottom: 8px;
       }
 
       .message.bot .message-content {
@@ -235,30 +219,46 @@
       }
 
       .chat-input-container {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% - 60px);
-        max-width: 800px;
-        background: #ffffff;
-        border-radius: 30px;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-        padding: 8px 15px;
+        background: transparent;
+        padding: 20px 30px;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      .input-wrapper {
+        max-width: 800px;
+        width: fit-content;
+        min-width: 400px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: #ffffff;
+        border-radius: 30px;
+        padding: 8px 8px 8px 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         transition: box-shadow 0.3s ease;
+      }
+
+      .input-wrapper:focus-within {
+        box-shadow: 0 6px 30px rgba(76, 175, 80, 0.3);
       }
 
       #userInput {
         flex: 1;
-        padding: 12px 15px;
+        padding: 12px 0;
         border: none;
-        border-radius: 25px;
-        background: #f5f5f5;
+        background: transparent;
         font-size: 1rem;
         outline: none;
+        transition: all 0.3s ease;
+        min-width: 300px;
       }
 
       #sendBtn {
@@ -279,13 +279,35 @@
       }
 
       @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .mobile-menu {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.98);
+          flex-direction: column;
+          padding: 1rem;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .chat-wrapper {
+          top: 70px;
+        }
         .chat-container {
-          height: 100vh;
-          border-radius: 0;
+          height: 100%;
         }
         .chat-input-container {
-          width: calc(100% - 30px);
           bottom: 15px;
+          padding: 15px 20px;
         }
         .message-content {
           max-width: 85%;
@@ -294,24 +316,23 @@
     </style>
   </head>
   <body>
-    <div class="chat-container">
-      <div class="chat-header">
-        <div class="header-left">
-          <a href="index.html"><div class="bot-avatar">🌾</div></a>
-          <div class="header-content">
-            <h1>Smart Farming AI Assistant</h1>
-            <p>Your intelligent pest control advisor</p>
-          </div>
-        </div>
-        <div class="header-actions">
-          <div class="status-indicator">
-            <div class="status-dot"></div>
-            <span>Online</span>
-          </div>
-          <button class="reset-btn" onclick="resetChat()">🔄 Reset</button>
-        </div>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="logo">AgriGuard AI</a>
+        <ul class="nav-links">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#agents">Agents</a></li>
+          <li><a href="index.html#technology">Technology</a></li>
+          <li><a href="index.html#workflow">How It Works</a></li>
+          <li><a href="chat.html">Chat Bot</a></li>
+          <li id="auth-link"><a href="login.html">Login</a></li>
+        </ul>
+        <button class="mobile-menu">☰</button>
       </div>
+    </nav>
 
+    <div class="chat-wrapper">
+    <div class="chat-container">
       <div class="quick-actions">
         <button
           class="quick-action-btn"
@@ -356,15 +377,18 @@
       </div>
 
       <div class="chat-input-container">
-        <input
-          type="text"
-          id="userInput"
-          placeholder="Ask me anything..."
-          onkeypress="handleKeyPress(event)"
-          autocomplete="off"
-        />
-        <button id="sendBtn" onclick="sendMessage()">➤</button>
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="userInput"
+            placeholder="Ask me anything..."
+            onkeypress="handleKeyPress(event)"
+            autocomplete="off"
+          />
+          <button id="sendBtn" onclick="sendMessage()">➤</button>
+        </div>
       </div>
+    </div>
     </div>
 
     <script>
@@ -372,11 +396,7 @@
       let isProcessing = false;
       const SESSION_ID = "default";
 
-      document.getElementById("welcomeTime").textContent =
-        new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
+      // Removed welcomeTime reference as element doesn't exist
 
       function handleKeyPress(event) {
         if (event.key === "Enter" && !isProcessing) sendMessage();
@@ -437,7 +457,7 @@
         const avatarClass =
           sender === "bot" ? "bot-avatar-msg" : "user-avatar-msg";
         msg.innerHTML = `<div class="message-avatar ${avatarClass}">${emoji}</div>
-                   <div><div class="message-content">${escapeHtml(
+                   <div><div class="message-content">${formatMessageText(
                      content
                    )}</div>
                    <div class="message-time">${new Date().toLocaleTimeString(
@@ -448,30 +468,109 @@
         container.scrollTop = container.scrollHeight;
       }
 
+      function formatMessageText(text) {
+        // Escape HTML first
+        text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        
+        // Convert **bold** to <strong>
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        
+        // Convert *italic* to <em>
+        text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        
+        // Convert `code` to <code>
+        text = text.replace(/`(.+?)`/g, '<code style="background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace;">$1</code>');
+        
+        // Convert bullet points
+        text = text.replace(/^[•\-\*]\s+(.+)$/gm, '<li>$1</li>');
+        
+        // Wrap lists in <ul>
+        text = text.replace(/(<li>.*<\/li>)/s, '<ul style="margin: 10px 0; padding-left: 20px;">$1</ul>');
+        
+        // Convert line breaks
+        text = text.replace(/\n/g, '<br>');
+        
+        // Convert numbered lists
+        text = text.replace(/(\d+\.\s+)(.+?)(<br>|$)/g, '<div style="margin: 5px 0;">$1$2</div>');
+        
+        return text;
+      }
+
       function escapeHtml(text) {
         const div = document.createElement("div");
         div.textContent = text;
         return div.innerHTML.replace(/\n/g, "<br>");
       }
       function showTypingIndicator() {
-        document.getElementById("typingIndicator").classList.add("active");
+        // Add a typing indicator message instead
+        const container = document.getElementById("chatMessages");
+        const typingDiv = document.createElement("div");
+        typingDiv.className = "message bot";
+        typingDiv.id = "typingIndicator";
+        typingDiv.innerHTML = `<div class="message-avatar bot-avatar-msg">🤖</div>
+                   <div class="message-content">Typing...</div>`;
+        container.appendChild(typingDiv);
+        container.scrollTop = container.scrollHeight;
       }
       function hideTypingIndicator() {
-        document.getElementById("typingIndicator").classList.remove("active");
+        const indicator = document.getElementById("typingIndicator");
+        if (indicator) indicator.remove();
       }
       function showErrorToast(msg) {
-        const toast = document.getElementById("errorToast");
-        toast.textContent = "❌ " + msg;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 4000);
+        // Display error as a system message instead
+        console.error("Error:", msg);
       }
       function resetChat() {
-        if (confirm("Reset chat?"))
-          document.getElementById("chatMessages").innerHTML =
-            document.getElementById("chatMessages").innerHTML;
+        if (confirm("Are you sure you want to reset the chat? This will clear all messages.")) {
+          const chatMessages = document.getElementById("chatMessages");
+          // Clear all messages and restore welcome message
+          chatMessages.innerHTML = `
+            <div class="message bot">
+              <div class="message-avatar bot-avatar-msg">🤖</div>
+              <div class="message-content">
+                🌾 <strong>Welcome to Smart Farming Pest Control!</strong
+                ><br /><br />
+                I'm your AI assistant, here to help you with:<br />
+                • Pest detection<br />
+                • Impact analysis<br />
+                • Treatment recommendations<br />
+                • General pest management<br /><br />
+                Ask me anything or use the quick actions above!
+              </div>
+            </div>
+          `;
+          // Clear input field
+          document.getElementById("userInput").value = "";
+          // Focus on input
+          document.getElementById("userInput").focus();
+        }
       }
       window.addEventListener("load", () => {
         document.getElementById("userInput").focus();
+        
+        // Handle mobile menu
+        const mobileMenu = document.querySelector(".mobile-menu");
+        const navLinks = document.querySelector(".nav-links");
+        mobileMenu.addEventListener("click", () => {
+          navLinks.style.display =
+            navLinks.style.display === "flex" ? "none" : "flex";
+        });
+        
+        // Handle auth link
+        const authLink = document.getElementById("auth-link");
+        const token = localStorage.getItem("token");
+        if (token) {
+          authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+          document
+            .getElementById("logoutBtn")
+            .addEventListener("click", function (e) {
+              e.preventDefault();
+              localStorage.removeItem("token");
+              window.location.href = "login.html";
+            });
+        } else {
+          authLink.innerHTML = `<a href="login.html">Login</a>`;
+        }
       });
     </script>
   </body>

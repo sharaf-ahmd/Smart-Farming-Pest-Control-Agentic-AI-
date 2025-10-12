@@ -5,24 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AgriGuard AI - Login</title>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #4caf50, #2d5a27);
+        font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          rgba(17, 24, 39, 0.9),
+          rgba(45, 90, 39, 0.95)
+        ),
+        url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat fixed;
         min-height: 100vh;
         margin: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        position: relative;
+      }
+
+      body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 0;
       }
 
       .navbar {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
         position: fixed;
         width: 100%;
         top: 0;
         z-index: 1000;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       }
 
       .nav-container {
@@ -36,11 +61,16 @@
 
       .logo {
         font-size: 1.8rem;
-        font-weight: bold;
-        color: #2d5a27;
+        font-weight: 800;
+        background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        letter-spacing: -0.5px;
+        text-decoration: none;
       }
 
       .logo::before {
@@ -55,102 +85,165 @@
       }
       .nav-links a {
         text-decoration: none;
-        color: #333;
-        font-weight: 500;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.95rem;
         padding: 0.5rem 1rem;
-        border-radius: 25px;
+        border-radius: 8px;
         transition: all 0.3s ease;
       }
       .nav-links a:hover {
         color: #2d5a27;
-        background: rgba(45, 90, 39, 0.1);
-        transform: translateY(-2px);
+        background: rgba(45, 90, 39, 0.08);
+        transform: translateY(-1px);
       }
 
       .container {
         width: 100%;
-        max-width: 420px;
-        padding: 2rem;
+        max-width: 450px;
+        padding: 3rem 2.5rem;
         margin-top: 120px;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.15);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         text-align: center;
-        color: white;
-        animation: fadeInUp 1s ease;
+        animation: fadeInUp 0.8s ease;
+        position: relative;
+        z-index: 1;
       }
 
       .title {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-        font-weight: bold;
-        letter-spacing: 1px;
+        font-size: 2.2rem;
+        margin-bottom: 0.5rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #1e293b 0%, #2d5a27 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-bottom: 2.5rem;
+        font-weight: 500;
       }
 
       .form .row {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
+        text-align: left;
       }
+
+      .form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #475569;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
       .form input {
-        width: 80%;
-        padding: 14px 16px;
-        border: none;
+        width: 100%;
+        padding: 14px 18px;
+        border: 2px solid #e2e8f0;
         border-radius: 12px;
         font-size: 1rem;
         outline: none;
-        background: rgba(255, 255, 255, 0.9);
-        color: #333;
-        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+        background: #f8fafc;
+        color: #1e293b;
         transition: all 0.3s ease;
+        font-family: inherit;
       }
       .form input:focus {
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
-        transform: scale(1.02);
+        border-color: #4caf50;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
       }
 
       .submit {
-        width: 80%;
-        padding: 14px;
-        background: linear-gradient(135deg, #4caf50, #2d5a27);
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
         color: white;
         border: none;
-        border-radius: 50px;
-        font-size: 1.1rem;
-        font-weight: bold;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
         cursor: pointer;
-        margin-top: 1rem;
+        margin-top: 1.5rem;
         transition: all 0.3s ease;
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
       }
       .submit:hover {
-        background: linear-gradient(135deg, #2d5a27, #4caf50);
         transform: translateY(-2px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        box-shadow: 0 12px 35px rgba(76, 175, 80, 0.5);
+      }
+      .submit:active {
+        transform: translateY(0);
       }
 
       .result {
-        margin-top: 1rem;
+        margin-top: 1.5rem;
+        padding: 12px;
+        border-radius: 12px;
+        font-weight: 600;
+        display: none;
       }
-      .result h2 {
-        font-size: 1rem;
-        font-weight: normal;
-        color: #fff;
+      .result.success {
+        background: rgba(76, 175, 80, 0.1);
+        color: #2e7d32;
+        display: block;
+      }
+      .result.error {
+        background: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+        display: block;
       }
 
       .register-link {
-        margin-top: 1rem;
+        margin-top: 2rem;
         font-size: 0.95rem;
-        color: #fff;
+        color: #64748b;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
       }
       .register-link a {
-        color: #a5ffb3;
-        font-weight: bold;
+        color: #4caf50;
+        font-weight: 700;
         text-decoration: none;
         transition: 0.3s;
       }
       .register-link a:hover {
+        color: #2e7d32;
         text-decoration: underline;
-        color: #fff;
+      }
+
+      .feature-icons {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .feature-icon {
+        text-align: center;
+      }
+
+      .feature-icon span {
+        font-size: 1.5rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .feature-icon p {
+        font-size: 0.75rem;
+        color: #64748b;
+        font-weight: 600;
       }
 
       @keyframes fadeInUp {
@@ -163,43 +256,72 @@
           transform: translateY(0);
         }
       }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .container {
+          max-width: 90%;
+          padding: 2rem 1.5rem;
+        }
+      }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   </head>
   <body>
     <nav class="navbar">
       <div class="nav-container">
-        <div class="logo">AgriGuard AI</div>
+        <a href="index.html" class="logo">AgriGuard AI</a>
         <ul class="nav-links">
           <li><a href="index.html#home">Home</a></li>
           <li><a href="index.html#agents">Agents</a></li>
-          <li><a href="index.html#technology">Technology</a></li>
-          <li><a href="index.html#workflow">How It Works</a></li>
           <li><a href="register.html">Register</a></li>
         </ul>
       </div>
     </nav>
 
     <div class="container">
-      <h1 class="title">Login to AgriGuard AI 🌱</h1>
+      <h1 class="title">Welcome Back 🌱</h1>
+      <p class="subtitle">Login to access your AgriGuard AI dashboard</p>
+      
       <form class="form" id="loginForm">
         <div class="row">
-          <input type="text" id="username" placeholder="Username" required />
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter your username" required />
         </div>
         <div class="row">
+          <label for="password">Password</label>
           <input
             type="password"
             id="password"
-            placeholder="Password"
+            placeholder="Enter your password"
             required
           />
         </div>
-        <button type="submit" class="submit">Login</button>
+        <button type="submit" class="submit">Login to Dashboard</button>
       </form>
+      
+      <div id="msg" class="result"></div>
+
       <div class="register-link">
-        Don’t have an account? <a href="register.html">Register</a>
+        Don't have an account? <a href="register.html">Create one now</a>
       </div>
-      <div id="msg" class="result"><h2></h2></div>
+
+      <div class="feature-icons">
+        <div class="feature-icon">
+          <span>🔒</span>
+          <p>Secure</p>
+        </div>
+        <div class="feature-icon">
+          <span>⚡</span>
+          <p>Fast</p>
+        </div>
+        <div class="feature-icon">
+          <span>🌾</span>
+          <p>Smart</p>
+        </div>
+      </div>
     </div>
 
     <script>
@@ -208,6 +330,11 @@
 
         const username = $("#username").val();
         const password = $("#password").val();
+        const msgEl = $("#msg");
+
+        // Show loading state
+        $(".submit").text("Logging in...").prop("disabled", true);
+        msgEl.removeClass("success error").hide();
 
         $.ajax({
           url: "http://127.0.0.1:5000/auth/login",
@@ -215,23 +342,26 @@
           contentType: "application/json",
           data: JSON.stringify({ username, password }),
           success: function (data) {
+            $(".submit").text("Login to Dashboard").prop("disabled", false);
+            
             if (data.access_token) {
               localStorage.setItem("token", data.access_token);
-              $("#msg h2").text("Login successful!");
+              msgEl.text("✓ Login successful! Redirecting...").addClass("success");
 
               const redirectUrl =
                 localStorage.getItem("redirectAfterLogin") || "index.html";
               localStorage.removeItem("redirectAfterLogin");
               setTimeout(() => {
                 window.location.href = redirectUrl;
-              }, 500);
+              }, 1000);
             } else {
-              $("#msg h2").text("Login failed!");
+              msgEl.text("✗ Login failed! Please try again.").addClass("error");
             }
           },
           error: function (err) {
             console.error(err);
-            $("#msg h2").text(err.responseJSON?.msg || "Login failed!");
+            $(".submit").text("Login to Dashboard").prop("disabled", false);
+            msgEl.text("✗ " + (err.responseJSON?.msg || "Login failed! Please check your credentials.")).addClass("error");
           },
         });
       });
