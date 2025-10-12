@@ -6,6 +6,8 @@ from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 import traceback
+from langchain_core.messages import HumanMessage, AIMessage
+from Orchestration import app as orchestration_app
 
 from auth import init_auth 
 load_dotenv()
@@ -16,7 +18,10 @@ app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "super-secret-key")
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
 init_auth(app)  
-util.load_saved_artifacts() 
+util.load_saved_artifacts()
+
+# Store conversation sessions for orchestration
+orchestration_sessions = {} 
 
 @app.route('/<path:filename>')
 def serve_client_files(filename):
@@ -110,7 +115,7 @@ def chat():
     if not chat_input:
         return jsonify({"error": "chat_input is required"}), 400
 
-    bot = util.create_chatbot()
+    bot = util.bot
 
     try:
         response = bot.invoke(
@@ -132,7 +137,156 @@ def chat():
 
 
 # -------------------------------
-# Run Server
+# ORCHESTRATION AGENT ENDPOINTS
 # -------------------------------
+
+@app.route('/orchestration')
+def orchestration_page():
+    """Serve the orchestration chat page"""
+    return send_from_directory('../Client', 'orchestration.html')
+
+
+@app.route('/orchestrate', methods=['POST'])
+def orchestrate():
+    """
+    Main orchestration endpoint - handles multi-step pest management workflow
+    """
+    try:
+        data = request.json
+        user_message = data.get("message")
+        session_id = data.get("session_id", "default")
+        image_path = data.get("image_path", None)
+        
+        if not user_message:
+            return jsonify({"error": "message is required"}), 400
+        
+        # Get or create session conversation history
+        if session_id not in orchestration_sessions:
+            orchestration_sessions[session_id] = []
+        
+        messages = orchestration_sessions[session_id]
+        
+        # If image path provided, include it in the message
+        if image_path:
+            user_message = f"{user_message} Image path: {image_path}"
+        
+        # Add user message
+        messages.append(HumanMessage(content=user_message))
+        
+        # Invoke orchestration agent
+        state = {"messages": messages}
+        result = orchestration_app.invoke(state)
+        
+        # Update session with new messages
+        orchestration_sessions[session_id] = result["messages"]
+        
+        # Extract AI response and tool calls
+        response_text = ""
+        tools_used = []
+        
+        for msg in reversed(result["messages"]):
+            if isinstance(msg, AIMessage):
+                if msg.content:
+                    response_text = msg.content
+                if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                    tools_used = [tc['name'] for tc in msg.tool_calls]
+                break
+        
+        return jsonify({
+            "response": response_text,
+            "session_id": session_id,
+            "tool_calls": tools_used,
+            "conversation_length": len(result["messages"])
+        })
+    
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/orchestrate/upload', methods=['POST'])
+def orchestrate_with_upload():
+    """
+    Orchestration endpoint with image upload support
+    """
+    try:
+        if 'file' not in request.files:
+            return jsonify({"error": "No file uploaded"}), 400
+        
+        file = request.files['file']
+        user_message = request.form.get('message', 'Can you analyze this image?')
+        session_id = request.form.get('session_id', 'default')
+        
+        # Save file
+        os.makedirs("uploads", exist_ok=True)
+        file_path = os.path.join("uploads", file.filename)
+        file.save(file_path)
+        
+        # Get or create session
+        if session_id not in orchestration_sessions:
+            orchestration_sessions[session_id] = []
+        
+        messages = orchestration_sessions[session_id]
+        
+        # Add user message with image path
+        full_message = f"{user_message} Image path: {file_path}"
+        messages.append(HumanMessage(content=full_message))
+        
+        # Invoke orchestration agent
+        state = {"messages": messages}
+        result = orchestration_app.invoke(state)
+        
+        # Update session
+        orchestration_sessions[session_id] = result["messages"]
+        
+        # Extract response
+        response_text = ""
+        tools_used = []
+        
+        for msg in reversed(result["messages"]):
+            if isinstance(msg, AIMessage):
+                if msg.content:
+                    response_text = msg.content
+                if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                    tools_used = [tc['name'] for tc in msg.tool_calls]
+                break
+        
+        return jsonify({
+            "response": response_text,
+            "session_id": session_id,
+            "tool_calls": tools_used,
+            "image_path": file_path,
+            "conversation_length": len(result["messages"])
+        })
+    
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/orchestrate/reset', methods=['POST'])
+def reset_orchestration_session():
+    """Reset/clear a conversation session"""
+    data = request.json
+    session_id = data.get("session_id", "default")
+    
+    if session_id in orchestration_sessions:
+        del orchestration_sessions[session_id]
+    
+    return jsonify({
+        "message": f"Session {session_id} reset successfully"
+    })
+
+
+@app.route('/orchestrate/sessions', methods=['GET'])
+def get_orchestration_sessions():
+    """Get all active session IDs"""
+    return jsonify({
+        "sessions": list(orchestration_sessions.keys()),
+        "count": len(orchestration_sessions)
+    })
+
+
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

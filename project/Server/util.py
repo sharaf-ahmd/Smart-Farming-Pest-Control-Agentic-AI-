@@ -29,6 +29,7 @@ doc_chain=None
 doc_chain2=None
 llm=None
 embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+bot=None
 
 _sessions = {}
 
@@ -66,7 +67,8 @@ def load_saved_artifacts():
     doc_chain=create_stuff_documents_chain(llm,prompt)
     global chain
     chain=create_retrieval_chain(vector_db,doc_chain)
-
+    global bot
+    bot=create_chatbot()
     '''----------------------------------------------'''
     
     
