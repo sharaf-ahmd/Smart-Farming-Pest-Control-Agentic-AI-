@@ -1,7 +1,8 @@
 from typing import Annotated, TypedDict, Sequence
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, AIMessage
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
+
 from langchain_core.tools import tool
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
@@ -67,7 +68,8 @@ system_prompt = SystemMessage(
     )
 )
 
-model = ChatOpenAI(model="gpt-4o", temperature=0).bind_tools(tools)
+model = ChatGroq(model="llama-3.1-8b-instant", temperature=0).bind_tools(tools)
+
 
 
 def agent_node(state: AgentState) -> AgentState:
