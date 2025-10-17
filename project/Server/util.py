@@ -5,7 +5,7 @@ from ultralytics import YOLO
 from collections import Counter
 from langchain_community.vectorstores import FAISS,Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain,create_history_aware_retriever
@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-groq_api_key=os.getenv('GROQ_API_KEY')
+openai_api_key=os.getenv('OPENAI_API_KEY')
 
 
 __model = None
@@ -39,7 +39,7 @@ def load_saved_artifacts():
     print('YOLO model loaded...')  
 
     global llm
-    llm = ChatGroq(api_key=groq_api_key,model="llama-3.1-8b-instant")
+    llm = ChatOpenAI(api_key=openai_api_key, model="gpt-4o", temperature=0)
 
     
     '''--------------Impact analyzer--------------'''
@@ -54,12 +54,14 @@ def load_saved_artifacts():
     vector_db=db.as_retriever()   
 
     prompt= ChatPromptTemplate.from_messages([
-    ("system","You are an impact analyzer agent for a smart farming system," 
-     "use the context below to provide accurate and precise impact prediction based on the user input."
-     "provide the user with Risk Level, Avg Damage, Predicted Yield Loss."
-     "always provide the values for 'Risk Level, Avg Damage, Predicted Yield Loss' seperateley even if they are the same."
-     "also provide an overall description"
-     "if the user propmt is out of context find solutions from online resources and provide them(indicate out of context)"),
+    ("system","You are an impact analyzer agent for a smart farming system. " 
+     "Use the context below to provide accurate and precise impact prediction based on the user input. "
+     "Provide the user with Risk Level, Avg Damage, Predicted Yield Loss. "
+     "Always provide the values for 'Risk Level, Avg Damage, Predicted Yield Loss' separately even if they are the same. "
+     "Also provide an overall description. "
+     "IMPORTANT: Do NOT use markdown headers (###, ##, #) in your response. Use plain text with clear labels. "
+     "Format your response as: Risk Level: [value], Avg Damage: [value], Predicted Yield Loss: [value], followed by a description. "
+     "If the user prompt is out of context find solutions from online resources and provide them (indicate out of context)."),
      ("system","<context>\n{context}\n</context>"),
      ("human", "Question:{input} and {croptype}")])
 
@@ -79,9 +81,10 @@ def load_saved_artifacts():
     vector_db2=db2.as_retriever()
 
     prompt2 = ChatPromptTemplate.from_messages([
-    ("system","You are an Treatement reccomender agent for a smart farming system," 
-     "use the context below to provide accurate and precise treatement for the relevant pest and crop on the user input."
-     "provide the user with a detailed description of the treatment."),
+    ("system","You are a treatment recommender agent for a smart farming system. " 
+     "Use the context below to provide accurate and precise treatment for the relevant pest and crop based on the user input. "
+     "Provide the user with a detailed description of the treatment. "
+     "IMPORTANT: Do NOT use markdown headers (###, ##, #) in your response. Use plain text with clear sections."),
      ("system","<context>\n{context}\n</context>"),
      ("human", "Question:{input} and {croptype}")
 ])

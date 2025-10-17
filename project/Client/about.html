@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - AgriGuard AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2d5a27 0%, #4caf50 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+        .logo::before {
+            content: "🌾";
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        .nav-links a:hover {
+            color: #2d5a27;
+            background: rgba(45, 90, 39, 0.08);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(45, 90, 39, 0.9), rgba(76, 175, 80, 0.8)), 
+                        url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?q=80&w=2070') center/cover;
+            color: white;
+            padding: 140px 2rem 80px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #4caf50, #2e7d32);
+            border-radius: 2px;
+        }
+
+        .content-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .content-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #475569;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .team-section {
+            background: linear-gradient(to bottom, #f8fafc 0%, white 100%);
+            padding: 4rem 0;
+        }
+
+        .values-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .values-list li {
+            background: white;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #4caf50;
+            font-size: 1.1rem;
+            color: #475569;
+        }
+
+        .values-list li strong {
+            color: #1e293b;
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .footer p {
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .features-grid, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AgriGuard AI</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#agents">Agents</a></li>
+                <li><a href="index.html#technology">Technology</a></li>
+                <li><a href="index.html#workflow">How It Works</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="chat.html">Chat Bot</a></li>
+                <li id="auth-link"><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <h1>About AgriGuard AI</h1>
+        <p>Revolutionizing agriculture through intelligent pest management solutions</p>
+    </div>
+
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Our Mission</h2>
+            <div class="content-box">
+                <p>
+                    AgriGuard AI is dedicated to empowering farmers with cutting-edge artificial intelligence 
+                    technology to combat agricultural pests effectively and sustainably. Our mission is to reduce 
+                    crop losses, minimize environmental impact, and increase agricultural productivity through 
+                    intelligent, data-driven pest management solutions.
+                </p>
+                <p>
+                    We believe that technology should be accessible to all farmers, regardless of their technical 
+                    expertise. That's why we've built an intuitive, multi-agent AI system that handles the 
+                    complexity behind the scenes while providing simple, actionable recommendations.
+                </p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">What We Do</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🔬</span>
+                    <h3>Advanced Pest Detection</h3>
+                    <p>
+                        Using state-of-the-art computer vision and deep learning models to accurately 
+                        identify pests from crop images with high precision.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3>Risk Assessment</h3>
+                    <p>
+                        Intelligent analysis of pest impact on crops, predicting potential yield losses 
+                        and providing comprehensive risk assessments.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🌱</span>
+                    <h3>Eco-Friendly Solutions</h3>
+                    <p>
+                        Recommending sustainable, environmentally conscious treatment methods that 
+                        prioritize integrated pest management practices.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🤖</span>
+                    <h3>AI-Powered Insights</h3>
+                    <p>
+                        Leveraging multiple specialized AI agents working in harmony to deliver 
+                        comprehensive pest management strategies.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <h3>Secure & Private</h3>
+                    <p>
+                        Ensuring farmer data protection with enterprise-grade security measures 
+                        and strict privacy compliance.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3>Easy to Use</h3>
+                    <p>
+                        Designed with farmers in mind - simple interfaces that work on any device, 
+                        no technical knowledge required.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Our Technology</h2>
+            <div class="content-box">
+                <p>
+                    AgriGuard AI is built on a foundation of cutting-edge technologies:
+                </p>
+                <ul class="values-list">
+                    <li>
+                        <strong>Multi-Agent Architecture</strong>
+                        Specialized AI agents collaborate seamlessly to handle pest identification, 
+                        impact analysis, and treatment recommendations.
+                    </li>
+                    <li>
+                        <strong>Advanced Machine Learning</strong>
+                        Powered by state-of-the-art models including YOLOv8 for object detection, 
+                        GPT-4 for natural language processing, and ensemble ML models for predictions.
+                    </li>
+                    <li>
+                        <strong>Computer Vision Excellence</strong>
+                        Deep learning models trained on extensive agricultural datasets to recognize 
+                        pests with high accuracy across various crop types.
+                    </li>
+                    <li>
+                        <strong>Intelligent Orchestration</strong>
+                        LangChain-powered agent coordination ensures smooth communication and 
+                        efficient workflow between all system components.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Impact & Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Pest Detection Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Pest Species Identified</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">AI Agents Working</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Eco-Friendly Focus</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Our Values</h2>
+            <div class="content-box">
+                <ul class="values-list">
+                    <li>
+                        <strong>🌍 Sustainability</strong>
+                        We prioritize environmentally friendly solutions that protect both crops and ecosystems.
+                    </li>
+                    <li>
+                        <strong>🎯 Accuracy</strong>
+                        We strive for the highest precision in pest detection and risk assessment to provide reliable recommendations.
+                    </li>
+                    <li>
+                        <strong>👨‍🌾 Farmer-Centric</strong>
+                        Every feature is designed with farmers' needs in mind, ensuring practical and actionable insights.
+                    </li>
+                    <li>
+                        <strong>🔬 Innovation</strong>
+                        We continuously integrate the latest AI research and agricultural science to improve our platform.
+                    </li>
+                    <li>
+                        <strong>🤝 Accessibility</strong>
+                        We believe powerful technology should be accessible to all farmers, regardless of technical background.
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Get Started</h2>
+            <div class="content-box" style="text-align: center;">
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Ready to protect your crops with AI-powered pest management? 
+                    Join thousands of farmers already using AgriGuard AI.
+                </p>
+                <a href="register.html" style="
+                    display: inline-block;
+                    padding: 16px 40px;
+                    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 12px;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+                    transition: all 0.3s ease;
+                ">
+                    Start Free Today
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 AgriGuard AI - Multi-Agent Smart Farming System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Handle auth link
+        const authLink = document.getElementById('auth-link');
+        const token = localStorage.getItem('token');
+        if (token) {
+            authLink.innerHTML = `<a href="#" id="logoutBtn">Logout</a>`;
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+        } else {
+            authLink.innerHTML = `<a href="login.html">Login</a>`;
+        }
+    </script>
+</body>
+</html>

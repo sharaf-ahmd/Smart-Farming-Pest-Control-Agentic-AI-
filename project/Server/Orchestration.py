@@ -1,7 +1,7 @@
 from typing import Annotated, TypedDict, Sequence
 from dotenv import load_dotenv
 from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, AIMessage
-from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 
 from langchain_core.tools import tool
 from langgraph.graph.message import add_messages
@@ -61,14 +61,17 @@ system_prompt = SystemMessage(
     content=(
         "You are AgriGuard AI, an expert agricultural assistant. "
         "Use the available tools to help farmers with pest management. "
-        "When a user mentions an image, use pestDetector with the image path. "
-        "After detecting pests, use impactAnalyzer to assess damage. "
-        "Finally, use treatmentRecommendor to suggest solutions. "
-        "If data is missing, ask the user for clarification."
+        "\n\nIMPORTANT RULES:"
+        "\n1. ONLY use pestDetector tool when the user has explicitly provided an image path (look for 'Image path:' in the message)"
+        "\n2. If user mentions bugs/pests without an image, ask them to upload an image for accurate identification"
+        "\n3. If user already knows the pest name, skip pestDetector and directly use impactAnalyzer or treatmentRecommendor"
+        "\n4. After detecting pests with pestDetector, use impactAnalyzer to assess damage"
+        "\n5. Use treatmentRecommendor to suggest solutions based on the pest and crop"
+        "\n6. If critical information (pest name, crop type, or image) is missing, ask the user politely"
     )
 )
 
-model = ChatGroq(model="llama-3.1-8b-instant", temperature=0).bind_tools(tools)
+model = ChatOpenAI(model="gpt-4o", temperature=0).bind_tools(tools)
 
 
 

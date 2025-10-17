@@ -81,6 +81,10 @@ def serve_login():
 def serve_register():
     return send_from_directory('static', 'register.html')
 
+@app.route('/about')
+def about_page():
+    return send_from_directory('../Client', 'about.html')
+
 
 
 @app.route('/treatment')
