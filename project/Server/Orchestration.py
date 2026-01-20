@@ -1,17 +1,16 @@
-from typing import Annotated, TypedDict, Sequence
 from dotenv import load_dotenv
-from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, AIMessage
-from langchain_openai import ChatOpenAI
+load_dotenv()
 
+from typing import Annotated, TypedDict, Sequence
+from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage, AIMessage
+from langsmith import traceable, Client
+from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from langgraph.graph.message import add_messages
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 import util
 from PIL import Image
-
-
-load_dotenv()
 
 # Initialize util artifacts
 print("Loading models and artifacts...")
@@ -112,7 +111,7 @@ graph.add_conditional_edges(
 )
 
 graph.add_edge("tools", "agent")
-app = graph.compile()
+app = graph.compile(name="AgriGuard_Workflow")
 
 
 # Helper functions for running the agent
